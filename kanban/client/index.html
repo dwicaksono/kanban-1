@@ -10,7 +10,7 @@
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="./style/style.css">
-  <script src="https://unpkg.com/feather-icons"></script>
+
   <title>KANBAND</title>
 </head>
 
@@ -19,167 +19,129 @@
   <div id="app">
 
     <!-- login -->
-    <section>
-      <div class="loginRegisPage borderUniv">
-        <div class="boxLoginRegis borderUniv">
-          <div id="loginRegisFormPage">
-            <div id="loginForm">
-              <h1>Login gini dulu</h1>
-              <form>
-                <label for="email">Email:</label>
-                <input type="email" id="email"><br><br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password"><br><br>
-                <input type="submit" value="Submit">
-              </form>
+    <section v-if="!isLogin">
+      <div class="loginRegisPage">
+        <div class="loginRegisBox">
+          <h2>Login</h2>
+          <form>
+            <div class="formInputLoginRegis">
+              <input type="email" placeholder="Email" v-model="login.email">
             </div>
-          </div>
-          <div id="loginRegisFormPage">
-            <div id="loginWord">
-              <h1>AYO LOGIN</h1>
+            <div class="formInputLoginRegis">
+              <input type="password" placeholder="Password" v-model="login.password">
             </div>
-          </div>
-
+            <div type=button id="googleLogin"></div>
+            <div class="boxBtnloginRegister">
+              <div type="button" class="btnLoginRegister" @click="loginUser">Login</div>
+              <div type="button" class="btnLoginRegister morBtnLoginRegis">Register</div>
+            </div>
+          </form>
+          <hr>
         </div>
-
       </div>
     </section>
     <!-- end login -->
 
 
-
-
-
+    <!-- Register -->
+    <section v-if="!isLogin">
+      <div class="loginRegisPage">
+        <div class="loginRegisBox">
+          <h2>Register</h2>
+          <form>
+            <div class="formInputLoginRegis">
+              <input type="text" placeholder="Username" v-model="register.username">
+            </div>
+            <div class="formInputLoginRegis">
+              <input type="email" placeholder="Email" v-model="register.email">
+            </div>
+            <div class="formInputLoginRegis">
+              <input type="password" placeholder="Password" v-model="register.password">
+            </div>
+            <div type=button id="googleLogin"></div>
+            <div class="boxBtnloginRegister">
+              <div type="button" class="btnLoginRegister morBtnLoginRegis">Login</div>
+              <div type="button" class="btnLoginRegister" @click="registerUser">Register</div>
+            </div>
+          </form>
+          <hr>
+        </div>
+      </div>
+    </section>
+    <!-- end Register -->
 
 
     <!-- main page  -->
-    <nav id="navbar-box" class="d-flex">
-      <div id="logo">KANBAND</div>
-      <div type="button" id="logout"> <i data-feather="log-out"></i></div>
-    </nav>
+    <div id="mainPage" v-if="isLogin">
+      <!-- navbar -->
+      <nav id="navbar-box">
+        <div id="logo">KANBAND</div>
+        <div type="button" id="logout" @click="logutAction"> <i data-feather="log-out"></i></div>
+      </nav>
+      <!-- end navbar -->
+      <!-- add task -->
+      <section>
+        <div id="addBox">
+          <div id="addBtn">
+            <i data-feather="plus"></i>
+          </div>
+        </div>
+      </section>
+      <!-- end add task -->
+      <!-- dashboard card -->
+      <section>
+        <div id="cardContainer">
+          <div class="cardBox" v-for="(category,i) in categorys" :key="i">
+            <div class="headCard">
+              <div class="nameCard">
+                {{category.name}}
+              </div>
+              <div class="iconCard">
+                <i v-bind:data-feather="category.icon"></i>
+              </div>
+            </div>
+            <!-- card -->
+            <div class="cardContainer">
+              <div class="cards" v-for="(task,index) in allTask" :key="index" v-if="category.name == task.category">
+                <div>
+                  <div class="headCardBox">
+                    <div class=" status"> {{task.status}}</div>
+                    <div class="iconEdit"><i data-feather="more-vertical"></i></div>
+                  </div>
+                  <div class="titleCards">
+                    {{task.title}}
+                  </div>
+                  <div class="descriptionCards">
+                    <p>{{task.description}}</p>
+                  </div>
+                  <div class="switchCards">
+                    <div class="iconNextPrev">
+                      <div class="prev"><i data-feather="arrow-left"></i></div>
+                      <div class="next"><i data-feather="arrow-right"></i></div>
+                    </div>
+                    <div class="delete"><i data-feather="trash"></i></div>
+                  </div>
+                </div>
+              </div>
+              <!-- batas card kecil -->
+            </div>
+            <!-- end card -->
+          </div>
+        </div>
+      </section>
+      <!-- end dashboar card -->
+    </div>
+    <!-- end main page -->
+
+
 
     <section>
-      <div id="addBox">
-        <div id="addBtn">
-          <i data-feather="plus"></i>
-        </div>
-      </div>
-    </section>
-    <section>
-      <div id="cardContainer">
-        <div class="cardBox">
-          <div class="headCard">
-            <div class="nameCard">
-              Backlog
-            </div>
-            <div class="iconCard">
-              <i data-feather="book-open"></i>
-            </div>
-          </div>
-          <!-- card -->
-          <div class="cardContainer">
-            <div class="cards">
-              <div class="headCardBox">
-                <div class="status"> Hight</div>
-                <div class="iconEdit"><i data-feather="more-vertical"></i></div>
-              </div>
-              <div class="titleCards">
-                Ini Title Pertama
-              </div>
-              <div class="descriptionCards">
-                <p>ini descriptions</p>
-              </div>
-              <div class="switchCards">
-                <div class="iconNextPrev">
-                  <div class="prev"><i data-feather="arrow-left"></i></div>
-                  <div class="next"><i data-feather="arrow-right"></i></div>
-                </div>
-                <div class="delete"><i data-feather="trash"></i></div>
-              </div>
-            </div>
-            <!-- batas card kecil -->
-
-            <div class="cards">
-              <div class="headCardBox">
-                <div class="status"> Hight</div>
-                <div class="iconEdit"><i data-feather="more-vertical"></i></div>
-              </div>
-              <div class="titleCards">
-                Ini Title Pertama
-              </div>
-              <div class="descriptionCards">
-                <p>ini descriptions</p>
-              </div>
-              <div class="switchCards">
-                <div class="iconNextPrev">
-                  <div class="prev"><i data-feather="arrow-left"></i></div>
-                  <div class="next"><i data-feather="arrow-right"></i></div>
-                </div>
-                <div class="delete"><i data-feather="trash"></i></div>
-              </div>
-            </div>
-
-            <!-- batas card kecil -->
-            <div class="cards">
-              <div class="headCardBox">
-                <div class="status"> Hight</div>
-                <div class="iconEdit"><i data-feather="more-vertical"></i></div>
-              </div>
-              <div class="titleCards">
-                Ini Title Pertama
-              </div>
-              <div class="descriptionCards">
-                <p>ini descriptions</p>
-              </div>
-              <div class="switchCards">
-                <div class="iconNextPrev">
-                  <div class="prev"><i data-feather="arrow-left"></i></div>
-                  <div class="next"><i data-feather="arrow-right"></i></div>
-                </div>
-                <div class="delete"><i data-feather="trash"></i></div>
-              </div>
-            </div>
-
-            <!-- batas card kecil -->
-
-          </div>
-          <!-- end card -->
-        </div>
-        <div class="cardBox">
-          <div class="headCard">
-            <div class="nameCard">
-              Todo
-            </div>
-            <div class="iconCard">
-              <i data-feather="cpu"></i>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="cardBox">
-          <div class="headCard">
-            <div class="nameCard">
-              Completed
-            </div>
-            <div class="iconCard">
-              <i data-feather="shield"></i>
-            </div>
-          </div>
-        </div>
-        <div class="cardBox">
-          <div class="headCard">
-            <div class="nameCard">
-              Done
-            </div>
-            <div class="iconCard">
-              <i data-feather="star"></i>
-            </div>
-          </div>
-        </div>
+      <div id="addTaskPage">
 
       </div>
     </section>
+
+
 
   </div>
   <!-- END APP VUE -->
@@ -188,62 +150,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="./main.js"></script>
   <script>
     feather.replace()
   </script>
-  <script>
-    const axios = require('axios').default
-    let server = 'http://localhost:3000'
-    new Vue({
-      el: '#app',
-      data: {
-        isLogin: false,
-        allTask: []
-      },
-      methods: {
-        checkLogin() {
-          if (localStorage.getItem('token')) {
-            this.isLogin = false
-          }
-        },
 
-        loginUser(email, password) {
-          axios.post({
-            method: 'POST',
-            url: `${server}/users/login`,
-            data: {
-              email: email,
-              password: password
-            }
-          })
-            .then(({ data }) => {
-              localStorage.setItem('token')
-              console.log(data, '<<<<<< ini login')
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        },
-
-        getAllTask() {
-          axios.get({
-            method: 'GET',
-            url: `${server}/tasks`,
-            headers: {
-              token: localStorage.token
-            }
-          })
-            .then(({ data }) => {
-              console.log(data, '<<<<<< ini data get data')
-            })
-            .catch(err => {
-              console.log(err, '<<<< err??')
-            })
-        }
-
-      }
-    })
-  </script>
 </body>
 
 </html>

@@ -16,7 +16,7 @@ class ContorllerTask {
   static addTask(req, res, next) {
     let { title, description, status } = req.body
     let UserId = req.user.id
-    let category = 'backlog'
+    let category = 'Backlog'
     Task
       .create({ title, description, status, category, UserId })
       .then(newTask => {

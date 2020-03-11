@@ -4,7 +4,7 @@
   box-sizing: content-box;
 }
 body{
-  background-color: #d1ddf3;  
+  background-color: #d1ddf3 ;  
   font-family: 'Roboto', sans-serif;
   color: #273c75;
   
@@ -49,18 +49,18 @@ section{
   display: flex;
   justify-content:center;
   align-items:center;
-  background: #d1ddf3;
+  background: #d1ddf3 ;
   border-radius: 10px;
-  background: #d1ddf3;
+  background: #d1ddf3 ;
   box-shadow:  5px 5px 11px #c7d2e7, 
              -5px -5px 11px #dbe8ff;
              
 }
 
 #logout:hover{
-  color: rgba(255, 255, 255, 0.783);
+  color:#777575;
   border-radius: 10px;
-  background: #d1ddf3;
+  background: #d1ddf3 ;
   box-shadow: inset 5px 5px 11px #c7d2e7, 
             inset -5px -5px 11px #dbe8ff;
 }
@@ -80,15 +80,15 @@ section{
   display: flex;
   justify-content:center;
   align-items:center;
-  background: #d1ddf3;
+  background: #d1ddf3 ;
   box-shadow:  5px 5px 14px #bac5d8, 
                -5px -5px 14px #e8f5ff;
 }
 
 #addBtn:hover{
-  color: rgba(255, 255, 255, 0.783);
+  color:#777575;
   border-radius: 50%;
-  background: #d1ddf3;
+  background: #d1ddf3 ;
   box-shadow: inset 5px 5px 14px #bac5d8, 
               inset -5px -5px 14px #e8f5ff;
 }
@@ -115,11 +115,9 @@ section{
 .headCard{
   height: 70px;
   padding: 0px 30px;
-  /* border-bottom: 2px solid black; */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* background-color: #2f3640; */
   -webkit-box-shadow: 1px 10px 12px -9px rgba(47,54,64,0.32);
 -moz-box-shadow: 1px 10px 12px -9px rgba(47,54,64,0.32);
 box-shadow: 1px 10px 12px -9px rgba(47,54,64,0.32);
@@ -132,7 +130,6 @@ letter-spacing: 3px;
 }
 
 .cardContainer{
-  /* border: 1px solid white; */
   margin-top: 0.5em;
   height: 55vh;
   padding: 1em;
@@ -168,7 +165,7 @@ letter-spacing: 3px;
   border-radius: 1em;
   width: 9em;
   background-color: #273c75;
-  color: white;
+  color: #fff;
 }
 .iconEdit{
   display: flex;
@@ -176,14 +173,15 @@ letter-spacing: 3px;
   padding: 0.1em;
   cursor: pointer;
   border-radius: 2px;
-  background: #d1ddf3;
+  background: #d1ddf3 ;
 box-shadow:  3px 3px 6px #b6c0d3, 
 -3px -3px 6px #ecfaff;
 }
 
 .iconEdit:hover{
   border-radius: 2px;
-  background: #d1ddf3;
+  color: #777575;
+  background: #d1ddf3 ;
   box-shadow: inset 3px 3px 6px #b6c0d3, 
               inset -3px -3px 6px #ecfaff;
 }
@@ -215,7 +213,7 @@ box-shadow:  3px 3px 6px #b6c0d3,
   cursor: pointer;  
   padding: 5px;
   border-radius: 5px;
-background: #d1ddf3;
+background: #d1ddf3 ;
 box-shadow:  3px 3px 6px #b6c0d3, 
              -3px -3px 6px #ecfaff;
 }
@@ -224,19 +222,21 @@ box-shadow:  3px 3px 6px #b6c0d3,
   cursor: pointer;  
   padding: 5px;
   border-radius: 5px;
-background: #d1ddf3;
+background: #d1ddf3 ;
 box-shadow:  3px 3px 6px #b6c0d3, 
              -3px -3px 6px #ecfaff;
 }
 .prev:hover,.next:hover{
+  color: #777575;
   border-radius: 6px;
-  background: #d1ddf3;
+  background: #d1ddf3 ;
   box-shadow: inset 3px 3px 6px #b6c0d3, 
               inset -3px -3px 6px #ecfaff;
 }
 .delete:hover{
   border-radius: 5px;
-background: #d1ddf3;
+  color: #777575;
+background: #d1ddf3 ;
 box-shadow: inset 3px 3px 6px #b6c0d3, 
             inset -3px -3px 6px #ecfaff;
 }
@@ -259,27 +259,78 @@ box-shadow: inset 3px 3px 6px #b6c0d3,
 
 /* ********** LOGIN ********** */
 .loginRegisPage{
-  /* padding: 0px 5em; */
-  width: 100%;
-  height: 40em;
+  height: 100vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
-.boxLoginRegis{
-  margin:  2em 10em;
-  width: 100%;
-  border-radius: 3em;
+.loginRegisBox{
+  padding: 10%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  text-align: center;
+  
 }
-#loginRegisFormPage{
-  width: 50%;
-  height: 100%;
-  padding: 5em;
+input{
+  outline: none;
+  text-align: center;
+  background: transparent;
+  border: none;  
+    padding: 10px;
+    
+}
+.formInputLoginRegis{
+margin:1em 0px
+}
+.formInputLoginRegis{
+  padding: 2px;
+border-radius: 5px;
+width: 20em;
+height: 40px;
+border-radius: 20px;
+background: #d1ddf3;
+box-shadow:  3px 3px 6px #b2bccf, 
+             -3px -3px 6px #f0feff;
+}
+.formInputLoginRegis:hover{
+  border-radius: 20px;
+background: #d1ddf3;
+box-shadow: inset 3px 3px 6px #b2bccf, 
+            inset -3px -3px 6px #f0feff;
+}
+#googleLogin{
+  height: 40px;
+  text-align: center;
+  margin: 1em;
+  background-image: url('../asset/btn_google_signin_dark_normal_web.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#googleLogin:hover{
+  background-image: url('../asset/btn_google_signin_dark_pressed_web.png');
+}
+.boxBtnloginRegister{
+  display: flex;
   /* border: 1px solid black; */
 }
-#loginForm{
-  -webkit-box-shadow: 9px 2px 30px -23px rgba(39,60,117,1);
--moz-box-shadow: 9px 2px 30px -23px rgba(39,60,117,1);
-box-shadow: 9px 2px 30px -23px rgba(39,60,117,1);
+.btnLoginRegister{
+  /* border: 1px solid black; */
+  padding: 5px 20px;
+  border-radius: 20px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  font-size: 0.9em;
+  margin-right: 10px;
+}
+.morBtnLoginRegis{
+/* border-radius: 20px; */
+background: #d1ddf3;
+box-shadow:  5px 5px 9px #b2bccf, 
+             -5px -5px 9px #f0feff;
+}
+.morBtnLoginRegis:hover{
+  color: #777575;
+  border-radius: 20px;
+background: #d1ddf3;
+box-shadow: inset 5px 5px 9px #b2bccf, 
+            inset -5px -5px 9px #f0feff;
 }
