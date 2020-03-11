@@ -15,74 +15,234 @@
 </head>
 
 <body>
-  <nav id="navbar-box" class="d-flex">
-    <div id="logo">KANBAND</div>
-    <div type="button" id="logout"> <i data-feather="log-out"></i></div>
-  </nav>
 
-  <section>
-    <div id="addBox">
-      <div id="addBtn">
-        <i data-feather="plus"></i>
-      </div>
-    </div>
-  </section>
-  <section>
-    <div id="cardContainer">
-      <div class="cardBox">
-        <div class="headCard">
-          <div class="nameCard">
-            Backlog
+  <div id="app">
+
+    <!-- login -->
+    <section>
+      <div class="loginRegisPage borderUniv">
+        <div class="boxLoginRegis borderUniv">
+          <div id="loginRegisFormPage">
+            <div id="loginForm">
+              <h1>Login gini dulu</h1>
+              <form>
+                <label for="email">Email:</label>
+                <input type="email" id="email"><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password"><br><br>
+                <input type="submit" value="Submit">
+              </form>
+            </div>
           </div>
-          <div class="iconCard">
-            <i data-feather="book-open"></i>
+          <div id="loginRegisFormPage">
+            <div id="loginWord">
+              <h1>AYO LOGIN</h1>
+            </div>
           </div>
+
         </div>
-        <!-- card -->
-        <!-- end card -->
+
       </div>
-      <div class="cardBox">
-        <div class="headCard">
-          <div class="nameCard">
-            Todo
-          </div>
-          <div class="iconCard">
-            <i data-feather="cpu"></i>
-          </div>
-        </div>
-      </div>
-      <div class="cardBox">
-        <div class="headCard">
-          <div class="nameCard">
-            Completed
-          </div>
-          <div class="iconCard">
-            <i data-feather="shield"></i>
-          </div>
-        </div>
-      </div>
-      <div class="cardBox">
-        <div class="headCard">
-          <div class="nameCard">
-            Done
-          </div>
-          <div class="iconCard">
-            <i data-feather="star"></i>
-          </div>
+    </section>
+    <!-- end login -->
+
+
+
+
+
+
+
+    <!-- main page  -->
+    <nav id="navbar-box" class="d-flex">
+      <div id="logo">KANBAND</div>
+      <div type="button" id="logout"> <i data-feather="log-out"></i></div>
+    </nav>
+
+    <section>
+      <div id="addBox">
+        <div id="addBtn">
+          <i data-feather="plus"></i>
         </div>
       </div>
+    </section>
+    <section>
+      <div id="cardContainer">
+        <div class="cardBox">
+          <div class="headCard">
+            <div class="nameCard">
+              Backlog
+            </div>
+            <div class="iconCard">
+              <i data-feather="book-open"></i>
+            </div>
+          </div>
+          <!-- card -->
+          <div class="cardContainer">
+            <div class="cards">
+              <div class="headCardBox">
+                <div class="status"> Hight</div>
+                <div class="iconEdit"><i data-feather="more-vertical"></i></div>
+              </div>
+              <div class="titleCards">
+                Ini Title Pertama
+              </div>
+              <div class="descriptionCards">
+                <p>ini descriptions</p>
+              </div>
+              <div class="switchCards">
+                <div class="iconNextPrev">
+                  <div class="prev"><i data-feather="arrow-left"></i></div>
+                  <div class="next"><i data-feather="arrow-right"></i></div>
+                </div>
+                <div class="delete"><i data-feather="trash"></i></div>
+              </div>
+            </div>
+            <!-- batas card kecil -->
 
-    </div>
-  </section>
+            <div class="cards">
+              <div class="headCardBox">
+                <div class="status"> Hight</div>
+                <div class="iconEdit"><i data-feather="more-vertical"></i></div>
+              </div>
+              <div class="titleCards">
+                Ini Title Pertama
+              </div>
+              <div class="descriptionCards">
+                <p>ini descriptions</p>
+              </div>
+              <div class="switchCards">
+                <div class="iconNextPrev">
+                  <div class="prev"><i data-feather="arrow-left"></i></div>
+                  <div class="next"><i data-feather="arrow-right"></i></div>
+                </div>
+                <div class="delete"><i data-feather="trash"></i></div>
+              </div>
+            </div>
+
+            <!-- batas card kecil -->
+            <div class="cards">
+              <div class="headCardBox">
+                <div class="status"> Hight</div>
+                <div class="iconEdit"><i data-feather="more-vertical"></i></div>
+              </div>
+              <div class="titleCards">
+                Ini Title Pertama
+              </div>
+              <div class="descriptionCards">
+                <p>ini descriptions</p>
+              </div>
+              <div class="switchCards">
+                <div class="iconNextPrev">
+                  <div class="prev"><i data-feather="arrow-left"></i></div>
+                  <div class="next"><i data-feather="arrow-right"></i></div>
+                </div>
+                <div class="delete"><i data-feather="trash"></i></div>
+              </div>
+            </div>
+
+            <!-- batas card kecil -->
+
+          </div>
+          <!-- end card -->
+        </div>
+        <div class="cardBox">
+          <div class="headCard">
+            <div class="nameCard">
+              Todo
+            </div>
+            <div class="iconCard">
+              <i data-feather="cpu"></i>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="cardBox">
+          <div class="headCard">
+            <div class="nameCard">
+              Completed
+            </div>
+            <div class="iconCard">
+              <i data-feather="shield"></i>
+            </div>
+          </div>
+        </div>
+        <div class="cardBox">
+          <div class="headCard">
+            <div class="nameCard">
+              Done
+            </div>
+            <div class="iconCard">
+              <i data-feather="star"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+  <!-- END APP VUE -->
 
 
 
-
-
-
-
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
     feather.replace()
+  </script>
+  <script>
+    const axios = require('axios').default
+    let server = 'http://localhost:3000'
+    new Vue({
+      el: '#app',
+      data: {
+        isLogin: false,
+        allTask: []
+      },
+      methods: {
+        checkLogin() {
+          if (localStorage.getItem('token')) {
+            this.isLogin = false
+          }
+        },
+
+        loginUser(email, password) {
+          axios.post({
+            method: 'POST',
+            url: `${server}/users/login`,
+            data: {
+              email: email,
+              password: password
+            }
+          })
+            .then(({ data }) => {
+              localStorage.setItem('token')
+              console.log(data, '<<<<<< ini login')
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        },
+
+        getAllTask() {
+          axios.get({
+            method: 'GET',
+            url: `${server}/tasks`,
+            headers: {
+              token: localStorage.token
+            }
+          })
+            .then(({ data }) => {
+              console.log(data, '<<<<<< ini data get data')
+            })
+            .catch(err => {
+              console.log(err, '<<<< err??')
+            })
+        }
+
+      }
+    })
   </script>
 </body>
 
