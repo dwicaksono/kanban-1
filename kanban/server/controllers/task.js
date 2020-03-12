@@ -14,6 +14,7 @@ class ContorllerTask {
   }
 
   static addTask(req, res, next) {
+    console.log('MASUKKKK KONTROL')
     let { title, description, status } = req.body
     let UserId = req.user.id
     let category = 'Backlog'

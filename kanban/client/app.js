@@ -29,9 +29,17 @@ new Vue({
       this.getAllTask()
     }
   },
+  mounted() {
+
+  },
+  watch: {
+
+  },
+  updated() {
+    feather.replace()
+  },
 
   methods: {
-
     loginUser() {
       axios({
         method: 'POST',
@@ -51,6 +59,7 @@ new Vue({
           console.log(err)
         })
     },
+
 
     registerUser() {
       axios({
@@ -90,13 +99,12 @@ new Vue({
         })
     },
 
+
     logutAction() {
       localStorage.clear()
       this.isLogin = false
     },
-    // toRegister() {
-    //   this.indexPage.registerPage
-    // }
+
 
   }
 })

@@ -1,0 +1,101 @@
+<template>
+  <div>
+    <!-- add task -->
+    <section v-show="!formAdd">
+      <div id="addBox">
+        <div id="addBtn" @click="toFormAdd">
+          <i data-feather="plus"></i>
+        </div>
+      </div>
+    </section>
+    <!-- end add task -->
+
+    <!-- Add Task Form -->
+    <section v-if="formAdd">
+      <div id="addTaskPage">
+        <div class="loginRegisPage sabana">
+          <div class="loginRegisBox sabana">
+            <h2>Add Task</h2>
+            <form>
+              <select class="formInputLoginRegis" v-model="dataFormAdd.status">
+                <!-- <select v-model="dataFormAdd.status"> -->
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="Hight">Hight</option>
+                <!-- </select> -->
+                <!-- <input type="text" placeholder="status"  /> -->
+              </select>
+              <div class="formInputLoginRegis">
+                <input type="text" placeholder="title" v-model="dataFormAdd.title" />
+              </div>
+              <div class="formInputLoginRegis">
+                <input type="text" placeholder="description" v-model="dataFormAdd.description" />
+              </div>
+
+              <div class="boxBtnloginRegister">
+                <div type="button" class="btnLoginRegister" @click="actionFormAdd">add Task</div>
+                <div
+                  type="button"
+                  class="btnLoginRegister morBtnLoginRegis"
+                  @click="cancelToFormAdd"
+                >cancel</div>
+              </div>
+            </form>
+            <hr />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Add Task Form -->
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+const server = "http://localhost:3000";
+export default {
+  name: "AddTask",
+  data() {
+    return {
+      formAdd: false,
+      dataFormAdd: {
+        title: "",
+        description: "",
+        status: ""
+      }
+    };
+  },
+  methods: {
+    toFormAdd() {
+      this.formAdd = true;
+    },
+    cancelToFormAdd() {
+      this.formAdd = false;
+    },
+    actionFormAdd() {
+      axios({
+        method: "POST",
+        url: `${server}/tasks`,
+        data: {
+          title: this.dataFormAdd.title,
+          description: this.dataFormAdd.description,
+          status: this.dataFormAdd.status
+        },
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          console.log(data, "<<<< form update");
+          // this.$emit("resultAddTask");
+        })
+        .catch(error => {
+          console.log(error, "<<<< erorr");
+        });
+    }
+  }
+};
+</script>
+
+<style>
+</style>

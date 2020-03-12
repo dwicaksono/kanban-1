@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: 'column cannot be empty' },
         notEmpty: { msg: 'column cannot be empty' },
         isIn: {
-          args: [['Low', 'Middle', 'High']],
+          args: [['Low', 'Medium', 'Hight']],
           msg: 'status not found'
         }
       }

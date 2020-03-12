@@ -303,12 +303,12 @@ box-shadow: inset 3px 3px 6px #b2bccf,
   height: 40px;
   text-align: center;
   margin: 1em;
-  background-image: url('../asset/btn_google_signin_dark_normal_web.png');
+  background-image: url('/btn_google_signin_dark_normal_web.13fe081b.png');
   background-repeat: no-repeat;
   background-position: center;
 }
 #googleLogin:hover{
-  background-image: url('../asset/btn_google_signin_dark_pressed_web.png');
+  background-image: url('/btn_google_signin_dark_pressed_web.4c49ceb4.png');
 }
 .boxBtnloginRegister{
   display: flex;
@@ -336,3 +336,5 @@ background: #d1ddf3;
 box-shadow: inset 5px 5px 9px #b2bccf, 
             inset -5px -5px 9px #f0feff;
 }
+
+/*# sourceMappingURL=/style.493e6e98.css.map */

@@ -12,6 +12,7 @@ const router = require('./routes/index')
 
 
 app.use(cors())
+app.use(require('morgan')('combined'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
