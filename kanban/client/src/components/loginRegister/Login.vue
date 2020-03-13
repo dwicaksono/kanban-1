@@ -63,19 +63,33 @@ export default {
         }
       })
         .then(({ data }) => {
-          localStorage.token = data;
-          this.$emit("setLoginTrue");
-          console.log(data, "<<<<<< data login");
+          console.log(data.message);
+          if (data.message) {
+            // this.$emit("setLoginFalse");
+            throw data.message;
+          } else {
+            localStorage.token = data;
+            this.$emit("setLoginTrue");
+            console.log(data, "<<<<<< data login");
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
         })
         .catch(error => {
-          if (error.response) {
-            this.$emit("setLoginFalse");
-            console.log(error.response.data, "<<<< error response data");
-          } else if (error.request) {
-            console.log(error.request, "<<<<<< error request");
-          } else {
-            console.log(error.confiq, "<<<<<< error config");
-          }
+          // this.$emit("setLoginFalse");
+          // console.log(error.response.data, "<<<< error response data");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: `${error}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
     },
     toRegister() {
@@ -86,7 +100,6 @@ export default {
         .signIn()
         .then(GoogleUser => {
           let token = GoogleUser.getAuthResponse();
-          console.log(token, "<<<<<< token");
           axios({
             method: "POST",
             url: `${server}/users/googleLogin`,
@@ -103,7 +116,7 @@ export default {
         })
         .catch(error => {
           //on fail do something
-          console.log(error, "<<<<<<< errr");
+          console.log(error);
         });
     }
   }

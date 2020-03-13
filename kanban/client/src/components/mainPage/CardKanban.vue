@@ -46,18 +46,31 @@ export default {
   },
   methods: {
     actionDelete(id) {
-      axios({
-        method: "DELETE",
-        url: `${server}/tasks/${id}`,
-        headers: {
-          token: localStorage.token
-        }
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
       })
-        .then(({ data }) => {
-          this.$emit("resultDelete");
+        .then(result => {
+          if (result.value) {
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            axios({
+              method: "DELETE",
+              url: `${server}/tasks/${id}`,
+              headers: {
+                token: localStorage.token
+              }
+            }).then(({ data }) => {
+              this.$emit("resultDelete");
+            });
+          }
         })
         .catch(error => {
-          console.log(error);
+          console.log(error.response.data);
         });
     },
     getOneTask(id) {
@@ -70,7 +83,7 @@ export default {
       })
         .then(({ data }) => {
           this.getonetasks = data;
-          this.$emit("editask", data);
+          // this.$emit("editask", data);
         })
         .catch(error => {
           console.log(error);

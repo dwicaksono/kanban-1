@@ -10820,21 +10820,35 @@ var _default = {
         }
       }).then(function (_ref) {
         var data = _ref.data;
-        localStorage.token = data;
+        console.log(data.message);
 
-        _this.$emit("setLoginTrue");
-
-        console.log(data, "<<<<<< data login");
-      }).catch(function (error) {
-        if (error.response) {
-          _this.$emit("setLoginFalse");
-
-          console.log(error.response.data, "<<<< error response data");
-        } else if (error.request) {
-          console.log(error.request, "<<<<<< error request");
+        if (data.message) {
+          // this.$emit("setLoginFalse");
+          throw data.message;
         } else {
-          console.log(error.confiq, "<<<<<< error config");
+          localStorage.token = data;
+
+          _this.$emit("setLoginTrue");
+
+          console.log(data, "<<<<<< data login");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your work has been saved",
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
+      }).catch(function (error) {
+        // this.$emit("setLoginFalse");
+        // console.log(error.response.data, "<<<< error response data");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "".concat(error),
+          showConfirmButton: false,
+          timer: 1500
+        });
       });
     },
     toRegister: function toRegister() {
@@ -10845,7 +10859,6 @@ var _default = {
 
       this.$gAuth.signIn().then(function (GoogleUser) {
         var token = GoogleUser.getAuthResponse();
-        console.log(token, "<<<<<< token");
         (0, _axios.default)({
           method: "POST",
           url: "".concat(server, "/users/googleLogin"),
@@ -10863,7 +10876,7 @@ var _default = {
         });
       }).catch(function (error) {
         //on fail do something
-        console.log(error, "<<<<<<< errr");
+        console.log(error);
       });
     }
   }
@@ -11073,8 +11086,22 @@ var _default = {
         _this.register.username = "";
         _this.register.email = "";
         _this.register.password = "";
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "WELCOME",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }).catch(function (error) {
         console.log(error.response.data, "<<<< error response data");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "".concat(error.response.data),
+          showConfirmButton: false,
+          timer: 1500
+        });
       });
     },
     toLogin: function toLogin() {
@@ -11388,18 +11415,31 @@ var _default = {
     actionDelete: function actionDelete(id) {
       var _this = this;
 
-      (0, _axios.default)({
-        method: "DELETE",
-        url: "".concat(server, "/tasks/").concat(id),
-        headers: {
-          token: localStorage.token
-        }
-      }).then(function (_ref) {
-        var data = _ref.data;
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          (0, _axios.default)({
+            method: "DELETE",
+            url: "".concat(server, "/tasks/").concat(id),
+            headers: {
+              token: localStorage.token
+            }
+          }).then(function (_ref) {
+            var data = _ref.data;
 
-        _this.$emit("resultDelete");
+            _this.$emit("resultDelete");
+          });
+        }
       }).catch(function (error) {
-        console.log(error);
+        console.log(error.response.data);
       });
     },
     getOneTask: function getOneTask(id) {
@@ -11413,9 +11453,7 @@ var _default = {
         }
       }).then(function (_ref2) {
         var data = _ref2.data;
-        _this2.getonetasks = data;
-
-        _this2.$emit("editask", data);
+        _this2.getonetasks = data; // this.$emit("editask", data);
       }).catch(function (error) {
         console.log(error);
       });
@@ -11682,63 +11720,62 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 var server = "http://localhost:3000";
 var _default = {
-  props: ["category", "editMode"],
+  props: ["category", "editMode", "cards"],
   name: "Cardbesar",
   components: {
     CardKecil: _CardKanban.default
   },
   data: function data() {
-    return {
-      cards: [] // formEdits: null
+    return {// cards: []
+      // formEdits: null
       // changetoFormEdit: false,
       // dataUpdateTask: {
       //   title: "",
       //   description: ""
       // }
-
     };
   },
   updated: function updated() {
     feather.replace();
   },
-  mounted: function mounted() {
-    this.getAllTask();
-  },
+  // mounted() {
+  //   this.getAllTask();
+  // },
   methods: {
     closeEdit: function closeEdit() {
       this.$emit("onEditMode", false);
     },
-    getAllTask: function getAllTask() {
-      var _this = this;
-
-      (0, _axios.default)({
-        method: "GET",
-        url: "".concat(server, "/tasks"),
-        headers: {
-          token: localStorage.token
-        }
-      }).then(function (_ref) {
-        var data = _ref.data;
-        console.log(data);
-        _this.cards = data;
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
+    // getAllTask() {
+    //   axios({
+    //     method: "GET",
+    //     url: `${server}/tasks`,
+    //     headers: {
+    //       token: localStorage.token
+    //     }
+    //   })
+    //     .then(({ data }) => {
+    //       console.log(data);
+    //       this.cards = data;
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // },
     resultDelete: function resultDelete() {
-      this.getAllTask();
+      // this.getAllTask();
+      this.$emit("updateTask");
     },
     resAddTask: function resAddTask() {
-      this.getAllTask();
+      // this.getAllTask();
       this.resultAddTask = false;
     },
     editask: function editask(data) {
       this.formEdits = data;
-      this.changetoFormEdit = true;
-      this.$emit("editask", data);
+      this.changetoFormEdit = true; // this.$emit("editask", data);
+      // this.getAllTask();
     },
     updateTask: function updateTask() {
-      var _this2 = this;
+      var _this = this;
 
       (0, _axios.default)({
         method: "PUT",
@@ -11750,19 +11787,18 @@ var _default = {
         headers: {
           token: localStorage.token
         }
-      }).then(function (_ref2) {
-        var data = _ref2.data;
-        console.log(data, "<<<<<<< kirim update");
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data, "<<<<<<< kirim update"); // this.getAllTask();
 
-        _this2.getAllTask();
-
-        _this2.changetoFormEdit = false;
+        _this.changetoFormEdit = false;
       }).catch(function (error) {
         console.log(error.response, "<<<< error update task");
       });
     },
     nextCategory: function nextCategory() {
-      this.getAllTask();
+      console.log("<<<<<<<< data next");
+      this.$emit("updateTask");
     }
   }
 };
@@ -11962,8 +11998,22 @@ var _default = {
 
 
         _this.dataFormAdd = {};
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }).catch(function (error) {
-        console.log(error, "<<<< erorr");
+        console.log(error.response.data, "<<<< erorr");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "".concat(error.response.data),
+          showConfirmButton: false,
+          timer: 1500
+        });
       });
     }
   }
@@ -12266,6 +12316,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
 // import CardKecil from "../mainPage/CardKanban";
 var server = "http://localhost:3000";
 var _default = {
@@ -12291,7 +12344,7 @@ var _default = {
         name: "Done",
         icon: "star"
       }],
-      // cards: [],
+      cards: [],
       changetoFormEdit: false,
       dataUpdateTask: {
         title: "",
@@ -12299,13 +12352,37 @@ var _default = {
       }
     };
   },
+  mounted: function mounted() {
+    this.getAllTask();
+  },
   updated: function updated() {
     feather.replace();
   },
   methods: {
     resultAddTask: function resultAddTask() {
-      this.$emit("resAddTask");
-      this.resultAddTask = false;
+      // this.$emit("resAddTask");
+      // // this.resultAddTask = false;
+      this.getAllTask();
+    },
+    getAllTask: function getAllTask() {
+      var _this = this;
+
+      (0, _axios.default)({
+        method: "GET",
+        url: "".concat(server, "/tasks"),
+        headers: {
+          token: localStorage.token
+        }
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data);
+        _this.cards = data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    updateTask: function updateTask() {
+      this.getAllTask();
     }
   }
 };
@@ -12337,7 +12414,12 @@ exports.default = _default;
               _vm._l(_vm.categorys, function(category, i) {
                 return _c("Cardbesar", {
                   key: i,
-                  attrs: { editMode: _vm.editMode, category: category }
+                  attrs: {
+                    editMode: _vm.editMode,
+                    category: category,
+                    cards: _vm.cards
+                  },
+                  on: { updateTask: _vm.updateTask }
                 })
               }),
               1

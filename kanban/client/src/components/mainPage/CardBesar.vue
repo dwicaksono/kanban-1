@@ -61,14 +61,14 @@ import axios from "axios";
 const server = `http://localhost:3000`;
 import CardKecil from "./CardKanban";
 export default {
-  props: ["category", "editMode"],
+  props: ["category", "editMode", "cards"],
   name: "Cardbesar",
   components: {
     CardKecil
   },
   data() {
     return {
-      cards: []
+      // cards: []
       // formEdits: null
       // changetoFormEdit: false,
       // dataUpdateTask: {
@@ -80,40 +80,42 @@ export default {
   updated() {
     feather.replace();
   },
-  mounted() {
-    this.getAllTask();
-  },
+  // mounted() {
+  //   this.getAllTask();
+  // },
   methods: {
     closeEdit() {
       this.$emit("onEditMode", false);
     },
-    getAllTask() {
-      axios({
-        method: "GET",
-        url: `${server}/tasks`,
-        headers: {
-          token: localStorage.token
-        }
-      })
-        .then(({ data }) => {
-          console.log(data);
-          this.cards = data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
+    // getAllTask() {
+    //   axios({
+    //     method: "GET",
+    //     url: `${server}/tasks`,
+    //     headers: {
+    //       token: localStorage.token
+    //     }
+    //   })
+    //     .then(({ data }) => {
+    //       console.log(data);
+    //       this.cards = data;
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // },
     resultDelete() {
-      this.getAllTask();
+      // this.getAllTask();
+      this.$emit("updateTask");
     },
     resAddTask() {
-      this.getAllTask();
+      // this.getAllTask();
       this.resultAddTask = false;
     },
     editask(data) {
       this.formEdits = data;
       this.changetoFormEdit = true;
-      this.$emit("editask", data);
+      // this.$emit("editask", data);
+      // this.getAllTask();
     },
     updateTask() {
       axios({
@@ -129,7 +131,7 @@ export default {
       })
         .then(({ data }) => {
           console.log(data, "<<<<<<< kirim update");
-          this.getAllTask();
+          // this.getAllTask();
           this.changetoFormEdit = false;
         })
         .catch(error => {
@@ -137,7 +139,8 @@ export default {
         });
     },
     nextCategory() {
-      this.getAllTask();
+      console.log("<<<<<<<< data next");
+      this.$emit("updateTask");
     }
   }
 };

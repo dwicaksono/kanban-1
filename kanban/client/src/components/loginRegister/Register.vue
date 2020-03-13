@@ -58,9 +58,23 @@ export default {
           this.register.username = "";
           this.register.email = "";
           this.register.password = "";
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "WELCOME",
+            showConfirmButton: false,
+            timer: 1500
+          });
         })
         .catch(error => {
           console.log(error.response.data, "<<<< error response data");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: `${error.response.data}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
     },
     toLogin() {

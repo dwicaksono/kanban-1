@@ -11,11 +11,14 @@
             <div class="iconCard">
               <i v-bind:data-feather="category.icon"></i>
         </div>-->
+
         <Cardbesar
           :editMode="editMode"
           v-for="(category,i) in categorys"
           :key="i"
           :category="category"
+          :cards="cards"
+          @updateTask="updateTask"
         />
 
         <!-- card-->
@@ -83,7 +86,7 @@ export default {
         { name: "Completed", icon: "shield" },
         { name: "Done", icon: "star" }
       ],
-      // cards: [],
+      cards: [],
       changetoFormEdit: false,
       dataUpdateTask: {
         title: "",
@@ -91,13 +94,36 @@ export default {
       }
     };
   },
+  mounted() {
+    this.getAllTask();
+  },
   updated() {
     feather.replace();
   },
   methods: {
     resultAddTask() {
-      this.$emit("resAddTask");
-      this.resultAddTask = false;
+      // this.$emit("resAddTask");
+      // // this.resultAddTask = false;
+      this.getAllTask();
+    },
+    getAllTask() {
+      axios({
+        method: "GET",
+        url: `${server}/tasks`,
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          console.log(data);
+          this.cards = data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    updateTask() {
+      this.getAllTask();
     }
   }
 };
