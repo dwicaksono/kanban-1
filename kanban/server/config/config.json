@@ -5,5 +5,12 @@
     "database": "kanban2",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "production": {
+    "username": "cjjzhyvzcpybzh",
+    "password": "a743ad245211ee8a778f00b72924608cdc368d5a511708e7809f664c0ff0c616",
+    "database": "d7sfpasbkjj7i0",
+    "host": "ec2-54-157-78-113.compute-1.amazonaws.com",
+    "dialect": "postgres"
   }
 }
