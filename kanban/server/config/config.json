@@ -7,10 +7,10 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "htgwtxjjtyncfb",
-    "password": "e916d357d36334b6a2cfcab6899ba81388b1122fd8a47a871d69cee58a774b94",
-    "database": "d63cpnb1s3sr5h",
-    "host": "ec2-54-152-175-141.compute-1.amazonaws.com",
+    "username": "tobxxxqhwhjojv",
+    "password": "962e4b3885d2b475968aedf1a9a3f65141e58fccb5298326e6b3f1073dbb4967",
+    "database": "deb92odqpbfuft",
+    "host": "ec2-52-87-58-157.compute-1.amazonaws.com",
     "dialect": "postgres"
   }
 }
