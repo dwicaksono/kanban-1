@@ -1,6 +1,6 @@
 <template>
   <!-- Register -->
-  <section v-if="!isLogin">
+  <section>
     <div class="loginRegisPage">
       <div class="loginRegisBox">
         <h2>Register</h2>
@@ -16,7 +16,7 @@
           </div>
           <div type="button" id="googleLogin"></div>
           <div class="boxBtnloginRegister">
-            <div type="button" class="btnLoginRegister morBtnLoginRegis">Login</div>
+            <div type="button" class="btnLoginRegister morBtnLoginRegis" @click="toLogin">Login</div>
             <div type="button" class="btnLoginRegister" @click="registerUser">Register</div>
           </div>
         </form>
@@ -54,22 +54,17 @@ export default {
       })
         .then(({ data }) => {
           localStorage.token = data;
-          this.isLogin = true;
+          this.$emit("setLoginTrue", data);
           this.register.username = "";
           this.register.email = "";
           this.register.password = "";
         })
         .catch(error => {
-          if (error.response) {
-            console.log(error.response.data, "<<<< error response data");
-            console.log(error.response.data, "<<<< error response status");
-            console.log(error.response.data, "<<<< error response headers");
-          } else if (error.request) {
-            console.log(error.request, "<<<<<< error request");
-          } else {
-            console.log(error.confiq, "<<<<<< error config");
-          }
+          console.log(error.response.data, "<<<< error response data");
         });
+    },
+    toLogin() {
+      this.$emit("toLoginPage");
     }
   }
 };

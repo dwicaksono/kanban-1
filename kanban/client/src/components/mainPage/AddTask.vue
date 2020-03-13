@@ -13,8 +13,8 @@
     <!-- Add Task Form -->
     <section v-if="formAdd">
       <div id="addTaskPage">
-        <div class="loginRegisPage sabana">
-          <div class="loginRegisBox sabana">
+        <div class="loginRegisPage">
+          <div class="loginRegisBox">
             <h2>Add Task</h2>
             <form>
               <select class="formInputLoginRegis" v-model="dataFormAdd.status">
@@ -26,10 +26,15 @@
                 <!-- <input type="text" placeholder="status"  /> -->
               </select>
               <div class="formInputLoginRegis">
-                <input type="text" placeholder="title" v-model="dataFormAdd.title" />
+                <input type="text" placeholder="title" maxlength="20" v-model="dataFormAdd.title" />
               </div>
               <div class="formInputLoginRegis">
-                <input type="text" placeholder="description" v-model="dataFormAdd.description" />
+                <input
+                  type="text"
+                  placeholder="description"
+                  maxlength="30"
+                  v-model="dataFormAdd.description"
+                />
               </div>
 
               <div class="boxBtnloginRegister">
@@ -86,8 +91,13 @@ export default {
         }
       })
         .then(({ data }) => {
-          console.log(data, "<<<< form update");
-          // this.$emit("resultAddTask");
+          // console.log(data, "<<<< form update");
+          this.formAdd = false;
+          this.$emit("resultAddTask");
+          // this.dataFormAdd.title = "";
+          // this.dataFormAdd.description = "";
+          // this.dataFormAdd.category = "";
+          this.dataFormAdd = {};
         })
         .catch(error => {
           console.log(error, "<<<< erorr");

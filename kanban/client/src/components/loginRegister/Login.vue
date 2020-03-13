@@ -12,10 +12,18 @@
           <div class="formInputLoginRegis">
             <input type="password" placeholder="Password" v-model="login.password" />
           </div>
-          <div type="button" id="googleLogin"></div>
+          <div type="button" id="googleLogin" @click="googleSign"></div>
+          <!-- <div type="button" id="googleLogin">
+            <Googlelogin />
+          </div>-->
+
           <div class="boxBtnloginRegister">
             <div type="button" class="btnLoginRegister" @click="loginUser">Login</div>
-            <div type="button" class="btnLoginRegister morBtnLoginRegis">Register</div>
+            <div
+              type="button"
+              class="btnLoginRegister morBtnLoginRegis"
+              @click="toRegister"
+            >Register</div>
           </div>
         </form>
         <hr />
@@ -29,8 +37,12 @@
 <script>
 import axios from "axios";
 const server = "http://localhost:3000";
+import Googlelogin from "./Google";
 export default {
   name: "Login",
+  components: {
+    Googlelogin
+  },
   data() {
     return {
       login: {
@@ -57,14 +69,41 @@ export default {
         })
         .catch(error => {
           if (error.response) {
+            this.$emit("setLoginFalse");
             console.log(error.response.data, "<<<< error response data");
-            console.log(error.response.data, "<<<< error response status");
-            console.log(error.response.data, "<<<< error response headers");
           } else if (error.request) {
             console.log(error.request, "<<<<<< error request");
           } else {
             console.log(error.confiq, "<<<<<< error config");
           }
+        });
+    },
+    toRegister() {
+      this.$emit("toRegisterPage");
+    },
+    googleSign() {
+      this.$gAuth
+        .signIn()
+        .then(GoogleUser => {
+          let token = GoogleUser.getAuthResponse();
+          console.log(token, "<<<<<< token");
+          axios({
+            method: "POST",
+            url: `${server}/users/googleLogin`,
+            data: { token }
+          })
+            .then(({ data }) => {
+              // console.log(data, "<<< ?????");
+              localStorage.setItem("token", data);
+              this.$emit("setLoginTrue");
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        })
+        .catch(error => {
+          //on fail do something
+          console.log(error, "<<<<<<< errr");
         });
     }
   }

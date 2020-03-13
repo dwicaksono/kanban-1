@@ -10647,7 +10647,103 @@ function patchScopedSlots (instance) {
   }
 }
 
-},{}],"src/components/loginRegister/Login.vue":[function(require,module,exports) {
+},{}],"src/components/loginRegister/Google.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = {
+  data: function data() {
+    return {
+      /**
+       * The Auth2 parameters, as seen on
+       * https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams.
+       * As the very least, a valid client_id must present.
+       * @type {Object}
+       */
+      googleSignInParams: {
+        client_id: "362042157345-2atu40t832rg252j53g1lckc8ra5tau6.apps.googleusercontent.com"
+      }
+    };
+  },
+  methods: {
+    onSignInSuccess: function onSignInSuccess(googleUser) {
+      // `googleUser` is the GoogleUser object that represents the just-signed-in user.
+      // See https://developers.google.com/identity/sign-in/web/reference#users
+      var profile = googleUser.getBasicProfile(); // etc etc
+    },
+    onSignInError: function onSignInError(error) {
+      // `error` contains any error occurred.
+      console.log("OH NOES", error);
+    }
+  }
+};
+exports.default = _default;
+        var $ab6166 = exports.default || module.exports;
+      
+      if (typeof $ab6166 === 'function') {
+        $ab6166 = $ab6166.options;
+      }
+    
+        /* template */
+        Object.assign($ab6166, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "g-signin-button",
+    {
+      attrs: { params: _vm.googleSignInParams },
+      on: { success: _vm.onSignInSuccess, error: _vm.onSignInError }
+    },
+    [_vm._v("Sign in with Google")]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$ab6166', $ab6166);
+          } else {
+            api.reload('$ab6166', $ab6166);
+          }
+        }
+
+        
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+      }
+    })();
+},{"_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/loginRegister/Login.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10656,6 +10752,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _Google = _interopRequireDefault(require("./Google"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10687,9 +10785,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var server = "http://localhost:3000";
 var _default = {
   name: "Login",
+  components: {
+    Googlelogin: _Google.default
+  },
   data: function data() {
     return {
       login: {
@@ -10718,14 +10827,43 @@ var _default = {
         console.log(data, "<<<<<< data login");
       }).catch(function (error) {
         if (error.response) {
+          _this.$emit("setLoginFalse");
+
           console.log(error.response.data, "<<<< error response data");
-          console.log(error.response.data, "<<<< error response status");
-          console.log(error.response.data, "<<<< error response headers");
         } else if (error.request) {
           console.log(error.request, "<<<<<< error request");
         } else {
           console.log(error.confiq, "<<<<<< error config");
         }
+      });
+    },
+    toRegister: function toRegister() {
+      this.$emit("toRegisterPage");
+    },
+    googleSign: function googleSign() {
+      var _this2 = this;
+
+      this.$gAuth.signIn().then(function (GoogleUser) {
+        var token = GoogleUser.getAuthResponse();
+        console.log(token, "<<<<<< token");
+        (0, _axios.default)({
+          method: "POST",
+          url: "".concat(server, "/users/googleLogin"),
+          data: {
+            token: token
+          }
+        }).then(function (_ref2) {
+          var data = _ref2.data;
+          // console.log(data, "<<< ?????");
+          localStorage.setItem("token", data);
+
+          _this2.$emit("setLoginTrue");
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }).catch(function (error) {
+        //on fail do something
+        console.log(error, "<<<<<<< errr");
       });
     }
   }
@@ -10795,7 +10933,10 @@ exports.default = _default;
             })
           ]),
           _vm._v(" "),
-          _c("div", { attrs: { type: "button", id: "googleLogin" } }),
+          _c("div", {
+            attrs: { type: "button", id: "googleLogin" },
+            on: { click: _vm.googleSign }
+          }),
           _vm._v(" "),
           _c("div", { staticClass: "boxBtnloginRegister" }, [
             _c(
@@ -10812,7 +10953,8 @@ exports.default = _default;
               "div",
               {
                 staticClass: "btnLoginRegister morBtnLoginRegis",
-                attrs: { type: "button" }
+                attrs: { type: "button" },
+                on: { click: _vm.toRegister }
               },
               [_vm._v("Register")]
             )
@@ -10857,7 +10999,7 @@ render._withStripped = true
       
       }
     })();
-},{"axios":"node_modules/axios/index.js","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/loginRegister/Register.vue":[function(require,module,exports) {
+},{"axios":"node_modules/axios/index.js","./Google":"src/components/loginRegister/Google.vue","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/loginRegister/Register.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10925,21 +11067,18 @@ var _default = {
       }).then(function (_ref) {
         var data = _ref.data;
         localStorage.token = data;
-        _this.isLogin = true;
+
+        _this.$emit("setLoginTrue", data);
+
         _this.register.username = "";
         _this.register.email = "";
         _this.register.password = "";
       }).catch(function (error) {
-        if (error.response) {
-          console.log(error.response.data, "<<<< error response data");
-          console.log(error.response.data, "<<<< error response status");
-          console.log(error.response.data, "<<<< error response headers");
-        } else if (error.request) {
-          console.log(error.request, "<<<<<< error request");
-        } else {
-          console.log(error.confiq, "<<<<<< error config");
-        }
+        console.log(error.response.data, "<<<< error response data");
       });
+    },
+    toLogin: function toLogin() {
+      this.$emit("toLoginPage");
     }
   }
 };
@@ -10956,111 +11095,110 @@ exports.default = _default;
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return !_vm.isLogin
-    ? _c("section", [
-        _c("div", { staticClass: "loginRegisPage" }, [
-          _c("div", { staticClass: "loginRegisBox" }, [
-            _c("h2", [_vm._v("Register")]),
+  return _c("section", [
+    _c("div", { staticClass: "loginRegisPage" }, [
+      _c("div", { staticClass: "loginRegisBox" }, [
+        _c("h2", [_vm._v("Register")]),
+        _vm._v(" "),
+        _c("form", [
+          _c("div", { staticClass: "formInputLoginRegis" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.register.username,
+                  expression: "register.username"
+                }
+              ],
+              attrs: { type: "text", placeholder: "Username" },
+              domProps: { value: _vm.register.username },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.register, "username", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "formInputLoginRegis" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.register.email,
+                  expression: "register.email"
+                }
+              ],
+              attrs: { type: "email", placeholder: "Email" },
+              domProps: { value: _vm.register.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.register, "email", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "formInputLoginRegis" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.register.password,
+                  expression: "register.password"
+                }
+              ],
+              attrs: { type: "password", placeholder: "Password" },
+              domProps: { value: _vm.register.password },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.register, "password", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { attrs: { type: "button", id: "googleLogin" } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "boxBtnloginRegister" }, [
+            _c(
+              "div",
+              {
+                staticClass: "btnLoginRegister morBtnLoginRegis",
+                attrs: { type: "button" },
+                on: { click: _vm.toLogin }
+              },
+              [_vm._v("Login")]
+            ),
             _vm._v(" "),
-            _c("form", [
-              _c("div", { staticClass: "formInputLoginRegis" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.register.username,
-                      expression: "register.username"
-                    }
-                  ],
-                  attrs: { type: "text", placeholder: "Username" },
-                  domProps: { value: _vm.register.username },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.register, "username", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "formInputLoginRegis" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.register.email,
-                      expression: "register.email"
-                    }
-                  ],
-                  attrs: { type: "email", placeholder: "Email" },
-                  domProps: { value: _vm.register.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.register, "email", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "formInputLoginRegis" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.register.password,
-                      expression: "register.password"
-                    }
-                  ],
-                  attrs: { type: "password", placeholder: "Password" },
-                  domProps: { value: _vm.register.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.register, "password", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { attrs: { type: "button", id: "googleLogin" } }),
-              _vm._v(" "),
-              _c("div", { staticClass: "boxBtnloginRegister" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "btnLoginRegister morBtnLoginRegis",
-                    attrs: { type: "button" }
-                  },
-                  [_vm._v("Login")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "btnLoginRegister",
-                    attrs: { type: "button" },
-                    on: { click: _vm.registerUser }
-                  },
-                  [_vm._v("Register")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("hr")
+            _c(
+              "div",
+              {
+                staticClass: "btnLoginRegister",
+                attrs: { type: "button" },
+                on: { click: _vm.registerUser }
+              },
+              [_vm._v("Register")]
+            )
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _c("hr")
       ])
-    : _vm._e()
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -11124,6 +11262,7 @@ var _default = {
   methods: {
     logutAction: function logutAction() {
       localStorage.clear();
+      this.$emit("logout");
     }
   } // updated() {
   //   feather.replace();
@@ -11189,7 +11328,7 @@ render._withStripped = true
       
       }
     })();
-},{"axios":"node_modules/axios/index.js","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/mainPage/AddTask.vue":[function(require,module,exports) {
+},{"axios":"node_modules/axios/index.js","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/mainPage/CardKanban.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11201,6 +11340,531 @@ var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var server = "http://localhost:3000";
+var _default = {
+  props: ["card", "onetask"],
+  name: "CardKecil",
+  data: function data() {
+    return {
+      formEdit: false,
+      getonetasks: []
+    };
+  },
+  methods: {
+    actionDelete: function actionDelete(id) {
+      var _this = this;
+
+      (0, _axios.default)({
+        method: "DELETE",
+        url: "".concat(server, "/tasks/").concat(id),
+        headers: {
+          token: localStorage.token
+        }
+      }).then(function (_ref) {
+        var data = _ref.data;
+
+        _this.$emit("resultDelete");
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    getOneTask: function getOneTask(id) {
+      var _this2 = this;
+
+      (0, _axios.default)({
+        method: "GET",
+        url: "".concat(server, "/tasks/").concat(id),
+        headers: {
+          token: localStorage.token
+        }
+      }).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.getonetasks = data;
+
+        _this2.$emit("editask", data);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    nextCard: function nextCard(id) {
+      var _this3 = this;
+
+      var newCategory = "";
+
+      if (this.card.category == "Backlog") {
+        newCategory = "Todo";
+      } else if (this.card.category == "Todo") {
+        newCategory = "Completed";
+      } else if (this.card.category == "Completed") {
+        newCategory = "Done";
+      }
+
+      (0, _axios.default)({
+        method: "PATCH",
+        url: "".concat(server, "/tasks/").concat(id),
+        headers: {
+          token: localStorage.token
+        },
+        data: {
+          category: newCategory
+        }
+      }).then(function (_ref3) {
+        var data = _ref3.data;
+
+        _this3.$emit("nextCategory");
+      }).catch(function (error) {
+        console.log(error.response);
+      });
+    },
+    prevCard: function prevCard(id) {
+      var _this4 = this;
+
+      var newCategory = "";
+
+      if (this.card.category == "Done") {
+        newCategory = "Completed";
+      } else if (this.card.category == "Completed") {
+        newCategory = "Todo";
+      } else if (this.card.category == "Todo") {
+        newCategory = "Backlog";
+      }
+
+      (0, _axios.default)({
+        method: "PATCH",
+        url: "".concat(server, "/tasks/").concat(id),
+        headers: {
+          token: localStorage.token
+        },
+        data: {
+          category: newCategory
+        }
+      }).then(function (_ref4) {
+        var data = _ref4.data;
+
+        _this4.$emit("nextCategory");
+      }).catch(function (error) {
+        console.log(error.response);
+      });
+    }
+  }
+};
+exports.default = _default;
+        var $3a9020 = exports.default || module.exports;
+      
+      if (typeof $3a9020 === 'function') {
+        $3a9020 = $3a9020.options;
+      }
+    
+        /* template */
+        Object.assign($3a9020, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "cards" }, [
+      _c("div", [
+        _c("div", { staticClass: "headCardBox" }, [
+          _c("div", { staticClass: "status" }, [
+            _vm._v(_vm._s(_vm.card.status))
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "iconEdit",
+              on: {
+                click: function($event) {
+                  return _vm.getOneTask(_vm.card.id)
+                }
+              }
+            },
+            [_c("i", { attrs: { "data-feather": "more-vertical" } })]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "titleCards" }, [
+          _vm._v(_vm._s(_vm.card.title))
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "descriptionCards" }, [
+          _c("p", [_vm._v(_vm._s(_vm.card.description))])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "switchCards" }, [
+          _c("div", { staticClass: "iconNextPrev" }, [
+            _vm.card.category != "Backlog"
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "prev",
+                    on: {
+                      click: function($event) {
+                        return _vm.prevCard(_vm.card.id)
+                      }
+                    }
+                  },
+                  [_c("i", { attrs: { "data-feather": "arrow-left" } })]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.card.category != "Done"
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "next",
+                    on: {
+                      click: function($event) {
+                        return _vm.nextCard(_vm.card.id)
+                      }
+                    }
+                  },
+                  [_c("i", { attrs: { "data-feather": "arrow-right" } })]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "delete",
+              on: {
+                click: function($event) {
+                  return _vm.actionDelete(_vm.card.id)
+                }
+              }
+            },
+            [_c("i", { attrs: { "data-feather": "trash" } })]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$3a9020', $3a9020);
+          } else {
+            api.reload('$3a9020', $3a9020);
+          }
+        }
+
+        
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+      }
+    })();
+},{"axios":"node_modules/axios/index.js","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/mainPage/CardBesar.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _CardKanban = _interopRequireDefault(require("./CardKanban"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var server = "http://localhost:3000";
+var _default = {
+  props: ["category", "editMode"],
+  name: "Cardbesar",
+  components: {
+    CardKecil: _CardKanban.default
+  },
+  data: function data() {
+    return {
+      cards: [] // formEdits: null
+      // changetoFormEdit: false,
+      // dataUpdateTask: {
+      //   title: "",
+      //   description: ""
+      // }
+
+    };
+  },
+  updated: function updated() {
+    feather.replace();
+  },
+  mounted: function mounted() {
+    this.getAllTask();
+  },
+  methods: {
+    closeEdit: function closeEdit() {
+      this.$emit("onEditMode", false);
+    },
+    getAllTask: function getAllTask() {
+      var _this = this;
+
+      (0, _axios.default)({
+        method: "GET",
+        url: "".concat(server, "/tasks"),
+        headers: {
+          token: localStorage.token
+        }
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data);
+        _this.cards = data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    resultDelete: function resultDelete() {
+      this.getAllTask();
+    },
+    resAddTask: function resAddTask() {
+      this.getAllTask();
+      this.resultAddTask = false;
+    },
+    editask: function editask(data) {
+      this.formEdits = data;
+      this.changetoFormEdit = true;
+      this.$emit("editask", data);
+    },
+    updateTask: function updateTask() {
+      var _this2 = this;
+
+      (0, _axios.default)({
+        method: "PUT",
+        url: "".concat(server, "/tasks/").concat(this.formEdits.id),
+        data: {
+          title: this.formEdits.title,
+          description: this.formEdits.description
+        },
+        headers: {
+          token: localStorage.token
+        }
+      }).then(function (_ref2) {
+        var data = _ref2.data;
+        console.log(data, "<<<<<<< kirim update");
+
+        _this2.getAllTask();
+
+        _this2.changetoFormEdit = false;
+      }).catch(function (error) {
+        console.log(error.response, "<<<< error update task");
+      });
+    },
+    nextCategory: function nextCategory() {
+      this.getAllTask();
+    }
+  }
+};
+exports.default = _default;
+        var $3e6a84 = exports.default || module.exports;
+      
+      if (typeof $3e6a84 === 'function') {
+        $3e6a84 = $3e6a84.options;
+      }
+    
+        /* template */
+        Object.assign($3e6a84, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    !_vm.editMode
+      ? _c("div", { staticClass: "cardBox" }, [
+          _c("div", { staticClass: "headCard" }, [
+            _c("div", { staticClass: "nameCard" }, [
+              _vm._v(_vm._s(_vm.category.name))
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "iconCard" }, [
+              _c("i", { attrs: { "data-feather": _vm.category.icon } })
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "cardContainer" },
+            _vm._l(_vm.cards, function(card) {
+              return _vm.category.name == card.category
+                ? _c("CardKecil", {
+                    key: card.id,
+                    attrs: { card: card },
+                    on: {
+                      resultDelete: _vm.resultDelete,
+                      editask: _vm.editask,
+                      nextCategory: _vm.nextCategory,
+                      resAddTask: _vm.resAddTask
+                    }
+                  })
+                : _vm._e()
+            }),
+            1
+          )
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$3e6a84', $3e6a84);
+          } else {
+            api.reload('$3e6a84', $3e6a84);
+          }
+        }
+
+        
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+      }
+    })();
+},{"axios":"node_modules/axios/index.js","./CardKanban":"src/components/mainPage/CardKanban.vue","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/mainPage/AddTask.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11274,6 +11938,8 @@ var _default = {
       this.formAdd = false;
     },
     actionFormAdd: function actionFormAdd() {
+      var _this = this;
+
       (0, _axios.default)({
         method: "POST",
         url: "".concat(server, "/tasks"),
@@ -11287,7 +11953,15 @@ var _default = {
         }
       }).then(function (_ref) {
         var data = _ref.data;
-        console.log(data, "<<<< form update"); // this.$emit("resultAddTask");
+        // console.log(data, "<<<< form update");
+        _this.formAdd = false;
+
+        _this.$emit("resultAddTask"); // this.dataFormAdd.title = "";
+        // this.dataFormAdd.description = "";
+        // this.dataFormAdd.category = "";
+
+
+        _this.dataFormAdd = {};
       }).catch(function (error) {
         console.log(error, "<<<< erorr");
       });
@@ -11332,8 +12006,8 @@ exports.default = _default;
     _vm.formAdd
       ? _c("section", [
           _c("div", { attrs: { id: "addTaskPage" } }, [
-            _c("div", { staticClass: "loginRegisPage sabana" }, [
-              _c("div", { staticClass: "loginRegisBox sabana" }, [
+            _c("div", { staticClass: "loginRegisPage" }, [
+              _c("div", { staticClass: "loginRegisBox" }, [
                 _c("h2", [_vm._v("Add Task")]),
                 _vm._v(" "),
                 _c("form", [
@@ -11394,7 +12068,11 @@ exports.default = _default;
                           expression: "dataFormAdd.title"
                         }
                       ],
-                      attrs: { type: "text", placeholder: "title" },
+                      attrs: {
+                        type: "text",
+                        placeholder: "title",
+                        maxlength: "20"
+                      },
                       domProps: { value: _vm.dataFormAdd.title },
                       on: {
                         input: function($event) {
@@ -11421,7 +12099,11 @@ exports.default = _default;
                           expression: "dataFormAdd.description"
                         }
                       ],
-                      attrs: { type: "text", placeholder: "description" },
+                      attrs: {
+                        type: "text",
+                        placeholder: "description",
+                        maxlength: "30"
+                      },
                       domProps: { value: _vm.dataFormAdd.description },
                       on: {
                         input: function($event) {
@@ -11502,191 +12184,6 @@ render._withStripped = true
       
       }
     })();
-},{"axios":"node_modules/axios/index.js","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/mainPage/CardKanban.vue":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var server = "http://localhost:3000";
-var _default = {
-  props: ["card"],
-  name: "CardKecil",
-  data: function data() {
-    return {};
-  },
-  mounted: function mounted() {// console.log(this.card, "<<<<<<<<< mounted");
-  },
-  methods: {
-    actionDelete: function actionDelete(id) {
-      var _this = this;
-
-      console.log(id, "<<<<<<< ?");
-      (0, _axios.default)({
-        method: "DELETE",
-        url: "".concat(server, "/tasks/").concat(id),
-        headers: {
-          token: localStorage.token
-        }
-      }).then(function (_ref) {
-        var data = _ref.data;
-        console.log(data, "<<<<<< data");
-
-        _this.$emit("resultDelete");
-      }).catch(function (error) {
-        console.log(error);
-      });
-    }
-  }
-};
-exports.default = _default;
-        var $3a9020 = exports.default || module.exports;
-      
-      if (typeof $3a9020 === 'function') {
-        $3a9020 = $3a9020.options;
-      }
-    
-        /* template */
-        Object.assign($3a9020, (function () {
-          var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "cards" }, [
-      _c("div", [
-        _c("div", { staticClass: "headCardBox" }, [
-          _c("div", { staticClass: "status" }, [
-            _vm._v(_vm._s(_vm.card.status))
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "titleCards" }, [
-          _vm._v(_vm._s(_vm.card.title))
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "descriptionCards" }, [
-          _c("p", [_vm._v(_vm._s(_vm.card.description))])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "switchCards" }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "delete",
-              on: {
-                click: function($event) {
-                  return _vm.actionDelete(_vm.card.id)
-                }
-              }
-            },
-            [_c("i", { attrs: { "data-feather": "trash" } })]
-          )
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "iconEdit" }, [
-      _c("i", { attrs: { "data-feather": "more-vertical" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "iconNextPrev" }, [
-      _c("div", { staticClass: "prev" }, [
-        _c("i", { attrs: { "data-feather": "arrow-left" } })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "next" }, [
-        _c("i", { attrs: { "data-feather": "arrow-right" } })
-      ])
-    ])
-  }
-]
-render._withStripped = true
-
-          return {
-            render: render,
-            staticRenderFns: staticRenderFns,
-            _compiled: true,
-            _scopeId: null,
-            functional: undefined
-          };
-        })());
-      
-    /* hot reload */
-    (function () {
-      if (module.hot) {
-        var api = require('vue-hot-reload-api');
-        api.install(require('vue'));
-        if (api.compatible) {
-          module.hot.accept();
-          if (!module.hot.data) {
-            api.createRecord('$3a9020', $3a9020);
-          } else {
-            api.reload('$3a9020', $3a9020);
-          }
-        }
-
-        
-        var reloadCSS = require('_css_loader');
-        module.hot.dispose(reloadCSS);
-        module.hot.accept(reloadCSS);
-      
-      }
-    })();
 },{"axios":"node_modules/axios/index.js","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/mainPage/BoardKanban.vue":[function(require,module,exports) {
 "use strict";
 
@@ -11697,7 +12194,9 @@ exports.default = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
-var _CardKanban = _interopRequireDefault(require("../mainPage/CardKanban"));
+var _CardBesar = _interopRequireDefault(require("./CardBesar"));
+
+var _AddTask = _interopRequireDefault(require("./AddTask"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11734,14 +12233,51 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// import CardKecil from "../mainPage/CardKanban";
 var server = "http://localhost:3000";
 var _default = {
   name: "BoardKanband",
+  // components: { CardKecil, AddTask },
   components: {
-    CardKecil: _CardKanban.default
+    AddTask: _AddTask.default,
+    Cardbesar: _CardBesar.default
   },
   data: function data() {
     return {
+      editMode: false,
       categorys: [{
         name: "Backlog",
         icon: "book-open"
@@ -11755,34 +12291,21 @@ var _default = {
         name: "Done",
         icon: "star"
       }],
-      cards: []
+      // cards: [],
+      changetoFormEdit: false,
+      dataUpdateTask: {
+        title: "",
+        description: ""
+      }
     };
   },
   updated: function updated() {
     feather.replace();
   },
-  mounted: function mounted() {
-    this.getAllTask();
-  },
   methods: {
-    getAllTask: function getAllTask() {
-      var _this = this;
-
-      (0, _axios.default)({
-        method: "GET",
-        url: "".concat(server, "/tasks"),
-        headers: {
-          token: localStorage.token
-        }
-      }).then(function (_ref) {
-        var data = _ref.data;
-        _this.cards = data;
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    resultDelete: function resultDelete() {
-      this.getAllTask();
+    resultAddTask: function resultAddTask() {
+      this.$emit("resAddTask");
+      this.resultAddTask = false;
     }
   }
 };
@@ -11800,41 +12323,29 @@ exports.default = _default;
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("section", [
-      _c(
-        "div",
-        { attrs: { id: "cardContainer" } },
-        _vm._l(_vm.categorys, function(category, i) {
-          return _c("div", { key: i, staticClass: "cardBox" }, [
-            _c("div", { staticClass: "headCard" }, [
-              _c("div", { staticClass: "nameCard" }, [
-                _vm._v(_vm._s(category.name))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "iconCard" }, [
-                _c("i", { attrs: { "data-feather": category.icon } })
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
+    _c(
+      "section",
+      [
+        _vm.changetoFormEdit == false
+          ? _c("AddTask", { on: { resultAddTask: _vm.resultAddTask } })
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.changetoFormEdit == false
+          ? _c(
               "div",
-              { staticClass: "cardContainer" },
-              _vm._l(_vm.cards, function(card) {
-                return category.name == card.category
-                  ? _c("CardKecil", {
-                      key: card.id,
-                      attrs: { card: card },
-                      on: { resultDelete: _vm.resultDelete }
-                    })
-                  : _vm._e()
+              { attrs: { id: "cardContainer" } },
+              _vm._l(_vm.categorys, function(category, i) {
+                return _c("Cardbesar", {
+                  key: i,
+                  attrs: { editMode: _vm.editMode, category: category }
+                })
               }),
               1
             )
-          ])
-        }),
-        0
-      )
-    ])
+          : _vm._e()
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -11870,7 +12381,7 @@ render._withStripped = true
       
       }
     })();
-},{"axios":"node_modules/axios/index.js","../mainPage/CardKanban":"src/components/mainPage/CardKanban.vue","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/App.vue":[function(require,module,exports) {
+},{"axios":"node_modules/axios/index.js","./CardBesar":"src/components/mainPage/CardBesar.vue","./AddTask":"src/components/mainPage/AddTask.vue","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/App.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11884,12 +12395,20 @@ var _Register = _interopRequireDefault(require("./components/loginRegister/Regis
 
 var _Navbar = _interopRequireDefault(require("./components/mainPage/Navbar"));
 
-var _AddTask = _interopRequireDefault(require("./components/mainPage/AddTask"));
-
 var _BoardKanban = _interopRequireDefault(require("./components/mainPage/BoardKanban"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11906,12 +12425,12 @@ var _default = {
     Login: _Login.default,
     Register: _Register.default,
     Navbar: _Navbar.default,
-    AddTask: _AddTask.default,
     BoardKanband: _BoardKanban.default
   },
   data: function data() {
     return {
-      isLogin: false
+      isLogin: false,
+      isRegister: false
     };
   },
   created: function created() {
@@ -11923,6 +12442,20 @@ var _default = {
   methods: {
     setLoginTrue: function setLoginTrue() {
       this.isLogin = true;
+    },
+    setLoginFalse: function setLoginFalse() {
+      this.isLogin = true;
+    },
+    logout: function logout() {
+      this.isLogin = false;
+    },
+    toRegisterPage: function toRegisterPage() {
+      this.isRegister = true;
+      this.isLogin = false;
+    },
+    toLoginPage: function toLoginPage() {
+      this.isRegister = false;
+      this.isLogin = false;
     }
   }
 };
@@ -11942,13 +12475,29 @@ exports.default = _default;
   return _c(
     "div",
     [
-      !_vm.isLogin
-        ? _c("Login", { on: { setLoginTrue: _vm.setLoginTrue } })
+      !_vm.isLogin && !_vm.isRegister
+        ? _c("Login", {
+            on: {
+              setLoginTrue: _vm.setLoginTrue,
+              setLoginFalse: _vm.setLoginFalse,
+              toRegisterPage: _vm.toRegisterPage
+            }
+          })
         : _vm._e(),
       _vm._v(" "),
-      _vm.isLogin == true ? _c("Navbar") : _vm._e(),
+      !_vm.isLogin && _vm.isRegister
+        ? _c("Register", {
+            on: {
+              toLoginPage: _vm.toLoginPage,
+              setLoginTrue: _vm.setLoginTrue,
+              setLoginFalse: _vm.setLoginFalse
+            }
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _vm.isLogin ? _c("AddTask") : _vm._e(),
+      _vm.isLogin == true
+        ? _c("Navbar", { on: { logout: _vm.logout } })
+        : _vm._e(),
       _vm._v(" "),
       _vm.isLogin ? _c("BoardKanband") : _vm._e()
     ],
@@ -11988,21 +12537,194 @@ render._withStripped = true
       
       }
     })();
-},{"./components/loginRegister/Login":"src/components/loginRegister/Login.vue","./components/loginRegister/Register":"src/components/loginRegister/Register.vue","./components/mainPage/Navbar":"src/components/mainPage/Navbar.vue","./components/mainPage/AddTask":"src/components/mainPage/AddTask.vue","./components/mainPage/BoardKanban":"src/components/mainPage/BoardKanban.vue","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/main.js":[function(require,module,exports) {
+},{"./components/loginRegister/Login":"src/components/loginRegister/Login.vue","./components/loginRegister/Register":"src/components/loginRegister/Register.vue","./components/mainPage/Navbar":"src/components/mainPage/Navbar.vue","./components/mainPage/BoardKanban":"src/components/mainPage/BoardKanban.vue","_css_loader":"node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"node_modules/vue-google-oauth2/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var googleAuth = function () {
+  function installClient() {
+    var apiUrl = 'https://apis.google.com/js/api.js';
+    return new Promise(resolve => {
+      var script = document.createElement('script');
+      script.src = apiUrl;
+
+      script.onreadystatechange = script.onload = function () {
+        if (!script.readyState || /loaded|complete/.test(script.readyState)) {
+          setTimeout(function () {
+            resolve();
+          }, 500);
+        }
+      };
+
+      document.getElementsByTagName('head')[0].appendChild(script);
+    });
+  }
+
+  function initClient(config) {
+    return new Promise(resolve => {
+      window.gapi.load('auth2', () => {
+        window.gapi.auth2.init(config).then(() => {
+          resolve(window.gapi);
+        });
+      });
+    });
+  }
+
+  function Auth() {
+    if (!(this instanceof Auth)) return new Auth();
+    this.GoogleAuth = null;
+    /* window.gapi.auth2.getAuthInstance() */
+
+    this.isAuthorized = false;
+    this.isInit = false;
+    this.prompt = null;
+
+    this.isLoaded = function () {
+      /* eslint-disable */
+      console.warn('isLoaded() will be deprecated. You can use "this.$gAuth.isInit"');
+      return !!this.GoogleAuth;
+    };
+
+    this.load = (config, prompt) => {
+      installClient().then(() => {
+        return initClient(config);
+      }).then(gapi => {
+        this.GoogleAuth = gapi.auth2.getAuthInstance();
+        this.isInit = true;
+        this.prompt = prompt;
+        this.isAuthorized = this.GoogleAuth.isSignedIn.get();
+      });
+    };
+
+    this.signIn = (successCallback, errorCallback) => {
+      return new Promise((resolve, reject) => {
+        if (!this.GoogleAuth) {
+          if (typeof errorCallback === 'function') errorCallback(false);
+          reject(false);
+          return;
+        }
+
+        this.GoogleAuth.signIn().then(googleUser => {
+          if (typeof successCallback === 'function') successCallback(googleUser);
+          this.isAuthorized = this.GoogleAuth.isSignedIn.get();
+          resolve(googleUser);
+        }).catch(error => {
+          if (typeof errorCallback === 'function') errorCallback(error);
+          reject(error);
+        });
+      });
+    };
+
+    this.getAuthCode = (successCallback, errorCallback) => {
+      return new Promise((resolve, reject) => {
+        if (!this.GoogleAuth) {
+          if (typeof errorCallback === 'function') errorCallback(false);
+          reject(false);
+          return;
+        }
+
+        this.GoogleAuth.grantOfflineAccess({
+          prompt: this.prompt
+        }).then(function (resp) {
+          if (typeof successCallback === 'function') successCallback(resp.code);
+          resolve(resp.code);
+        }).catch(function (error) {
+          if (typeof errorCallback === 'function') errorCallback(error);
+          reject(error);
+        });
+      });
+    };
+
+    this.signOut = (successCallback, errorCallback) => {
+      return new Promise((resolve, reject) => {
+        if (!this.GoogleAuth) {
+          if (typeof errorCallback === 'function') errorCallback(false);
+          reject(false);
+          return;
+        }
+
+        this.GoogleAuth.signOut().then(() => {
+          if (typeof successCallback === 'function') successCallback();
+          this.isAuthorized = false;
+          resolve(true);
+        }).catch(error => {
+          if (typeof errorCallback === 'function') errorCallback(error);
+          reject(error);
+        });
+      });
+    };
+  }
+
+  return new Auth();
+}();
+
+function installGoogleAuthPlugin(Vue, options) {
+  /* eslint-disable */
+  //set config
+  let GoogleAuthConfig = null;
+  let GoogleAuthDefaultConfig = {
+    scope: 'profile email',
+    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+  };
+  let prompt = 'select_account';
+
+  if (typeof options === 'object') {
+    GoogleAuthConfig = Object.assign(GoogleAuthDefaultConfig, options);
+    if (options.scope) GoogleAuthConfig.scope = options.scope;
+    if (options.prompt) prompt = options.prompt;
+
+    if (!options.clientId) {
+      console.warn('clientId is required');
+    }
+  } else {
+    console.warn('invalid option type. Object type accepted only');
+  } //Install Vue plugin
+
+
+  Vue.gAuth = googleAuth;
+  Object.defineProperties(Vue.prototype, {
+    $gAuth: {
+      get: function () {
+        return Vue.gAuth;
+      }
+    }
+  });
+  Vue.gAuth.load(GoogleAuthConfig, prompt);
+}
+
+var _default = installGoogleAuthPlugin;
+exports.default = _default;
+},{}],"src/main.js":[function(require,module,exports) {
 "use strict";
 
 var _vue = _interopRequireDefault(require("vue"));
 
 var _App = _interopRequireDefault(require("./App.vue"));
 
+var _vueGoogleOauth = _interopRequireDefault(require("vue-google-oauth2"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import GSignInButton from 'vue-google-signin-button'
+// Vue.use(GSignInButton)
+var gauthOption = {
+  clientId: "362042157345-lkhu4o1p6f96kacjqad7ff0gd27uff82.apps.googleusercontent.com" // scope: 'profile email',
+  // prompt: 'select_account'
+
+};
+
+_vue.default.use(_vueGoogleOauth.default, gauthOption);
 
 new _vue.default({
   render: function render(createElement) {
     return createElement(_App.default);
   }
 }).$mount('#app');
-},{"vue":"node_modules/vue/dist/vue.runtime.esm.js","./App.vue":"src/App.vue"}],"node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"vue":"node_modules/vue/dist/vue.runtime.esm.js","./App.vue":"src/App.vue","vue-google-oauth2":"node_modules/vue-google-oauth2/index.js"}],"node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -12030,7 +12752,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54661" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62349" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
