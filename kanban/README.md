@@ -23,9 +23,9 @@ $ npm install
 ## .ENV Tempelates
 
 ```
-SECRET="Bissmillah"
-DEFAULT_PASS="1234567"
-GOOGLE_ID="362042157345-lkhu4o1p6f96kacjqad7ff0gd27uff82.apps.googleusercontent.com"
+SECRET=""
+DEFAULT_PASS=""
+GOOGLE_ID=""
 ```
 
 
