@@ -72,7 +72,8 @@ import axios from "axios";
 // import CardKecil from "../mainPage/CardKanban";
 import Cardbesar from "./CardBesar";
 import AddTask from "./AddTask";
-const server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+const server = "https://kanban-dimas.herokuapp.com";
 export default {
   name: "BoardKanband",
   // components: { CardKecil, AddTask },

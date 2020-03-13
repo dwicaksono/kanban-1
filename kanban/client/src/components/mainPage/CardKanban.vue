@@ -34,7 +34,8 @@
 
 <script>
 import axios from "axios";
-const server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+const server = "https://kanban-dimas.herokuapp.com";
 export default {
   props: ["card", "onetask"],
   name: "CardKecil",

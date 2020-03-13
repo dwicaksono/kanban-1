@@ -36,7 +36,9 @@
 
 <script>
 import axios from "axios";
-const server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+const server = "https://kanban-dimas.herokuapp.com";
+
 import Googlelogin from "./Google";
 export default {
   name: "Login",

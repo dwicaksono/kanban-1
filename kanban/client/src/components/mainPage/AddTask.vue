@@ -57,7 +57,8 @@
 
 <script>
 import axios from "axios";
-const server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+const server = "https://kanban-dimas.herokuapp.com";
 export default {
   name: "AddTask",
   data() {
@@ -98,13 +99,13 @@ export default {
           // this.dataFormAdd.description = "";
           // this.dataFormAdd.category = "";
           this.dataFormAdd = {};
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Your work has been saved",
-            showConfirmButton: false,
-            timer: 1500
-          });
+          // Swal.fire({
+          //   position: "center",
+          //   icon: "success",
+          //   title: "Your work has been saved",
+          //   showConfirmButton: false,
+          //   timer: 1500
+          // });
         })
         .catch(error => {
           console.log(error.response.data, "<<<< erorr");

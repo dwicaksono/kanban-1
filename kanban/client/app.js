@@ -1,5 +1,6 @@
 
-let server = 'http://localhost:3000'
+// let server = 'http://localhost:3000'
+let server = 'https://kanban-dimas.herokuapp.com'
 
 new Vue({
   el: '#app',

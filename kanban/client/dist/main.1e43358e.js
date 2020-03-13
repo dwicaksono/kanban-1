@@ -10793,7 +10793,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-var server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
   name: "Login",
   components: {
@@ -11053,7 +11054,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-var server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
   name: "Register",
   data: function data() {
@@ -11283,7 +11285,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-var server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
   name: "Navbar",
   methods: {
@@ -11401,7 +11404,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-var server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
   props: ["card", "onetask"],
   name: "CardKecil",
@@ -11718,7 +11722,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-var server = "http://localhost:3000";
+// const server = `http://localhost:3000`;
+var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
   props: ["category", "editMode", "cards"],
   name: "Cardbesar",
@@ -11953,7 +11958,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-var server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
   name: "AddTask",
   data: function data() {
@@ -11997,14 +12003,13 @@ var _default = {
         // this.dataFormAdd.category = "";
 
 
-        _this.dataFormAdd = {};
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Your work has been saved",
-          showConfirmButton: false,
-          timer: 1500
-        });
+        _this.dataFormAdd = {}; // Swal.fire({
+        //   position: "center",
+        //   icon: "success",
+        //   title: "Your work has been saved",
+        //   showConfirmButton: false,
+        //   timer: 1500
+        // });
       }).catch(function (error) {
         console.log(error.response.data, "<<<< erorr");
         Swal.fire({
@@ -12320,7 +12325,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 // import CardKecil from "../mainPage/CardKanban";
-var server = "http://localhost:3000";
+// const server = "http://localhost:3000";
+var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
   name: "BoardKanband",
   // components: { CardKecil, AddTask },
@@ -12834,7 +12840,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62349" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63989" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
