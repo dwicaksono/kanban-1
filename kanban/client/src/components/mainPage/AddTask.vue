@@ -16,7 +16,7 @@
         <div class="loginRegisPage">
           <div class="loginRegisBox">
             <h2>Add Task</h2>
-            <form>
+            <form @submit.prevent="actionFormAdd">
               <select class="formInputLoginRegis" v-model="dataFormAdd.status">
                 <!-- <select v-model="dataFormAdd.status"> -->
                 <option value="Low">Low</option>
@@ -38,7 +38,8 @@
               </div>
 
               <div class="boxBtnloginRegister">
-                <div type="button" class="btnLoginRegister" @click="actionFormAdd">add Task</div>
+                <!-- <div type="button" class="btnLoginRegister" @click="actionFormAdd">add Task</div> -->
+                <button type="submit" class="btnLoginRegister btnNow">Add Task</button>
                 <div
                   type="button"
                   class="btnLoginRegister morBtnLoginRegis"
@@ -99,13 +100,13 @@ export default {
           // this.dataFormAdd.description = "";
           // this.dataFormAdd.category = "";
           this.dataFormAdd = {};
-          // Swal.fire({
-          //   position: "center",
-          //   icon: "success",
-          //   title: "Your work has been saved",
-          //   showConfirmButton: false,
-          //   timer: 1500
-          // });
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your work has been saved",
+            showConfirmButton: false,
+            timer: 1500
+          });
         })
         .catch(error => {
           console.log(error.response.data, "<<<< erorr");

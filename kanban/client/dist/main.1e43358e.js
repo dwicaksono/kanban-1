@@ -10793,6 +10793,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
 // const server = "http://localhost:3000";
 var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
@@ -10831,7 +10833,6 @@ var _default = {
 
           _this.$emit("setLoginTrue");
 
-          console.log(data, "<<<<<< data login");
           Swal.fire({
             position: "center",
             icon: "success",
@@ -10900,80 +10901,90 @@ exports.default = _default;
       _c("div", { staticClass: "loginRegisBox" }, [
         _c("h2", [_vm._v("Login")]),
         _vm._v(" "),
-        _c("form", [
-          _c("div", { staticClass: "formInputLoginRegis" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.login.email,
-                  expression: "login.email"
-                }
-              ],
-              attrs: { type: "email", placeholder: "Email" },
-              domProps: { value: _vm.login.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.login, "email", $event.target.value)
-                }
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.loginUser($event)
               }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "formInputLoginRegis" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.login.password,
-                  expression: "login.password"
-                }
-              ],
-              attrs: { type: "password", placeholder: "Password" },
-              domProps: { value: _vm.login.password },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            }
+          },
+          [
+            _c("div", { staticClass: "formInputLoginRegis" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.login.email,
+                    expression: "login.email"
                   }
-                  _vm.$set(_vm.login, "password", $event.target.value)
+                ],
+                attrs: { type: "email", placeholder: "Email" },
+                domProps: { value: _vm.login.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.login, "email", $event.target.value)
+                  }
                 }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", {
-            attrs: { type: "button", id: "googleLogin" },
-            on: { click: _vm.googleSign }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "boxBtnloginRegister" }, [
-            _c(
-              "div",
-              {
-                staticClass: "btnLoginRegister",
-                attrs: { type: "button" },
-                on: { click: _vm.loginUser }
-              },
-              [_vm._v("Login")]
-            ),
+              })
+            ]),
             _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "btnLoginRegister morBtnLoginRegis",
-                attrs: { type: "button" },
-                on: { click: _vm.toRegister }
-              },
-              [_vm._v("Register")]
-            )
-          ])
-        ]),
+            _c("div", { staticClass: "formInputLoginRegis" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.login.password,
+                    expression: "login.password"
+                  }
+                ],
+                attrs: { type: "password", placeholder: "Password" },
+                domProps: { value: _vm.login.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.login, "password", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", {
+              attrs: { type: "button", id: "googleLogin" },
+              on: { click: _vm.googleSign }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "boxBtnloginRegister" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btnLoginRegister btnNow",
+                  attrs: { type: "submit" }
+                },
+                [_vm._v("Login")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "btnLoginRegister morBtnLoginRegis",
+                  attrs: { type: "button" },
+                  on: { click: _vm.toRegister }
+                },
+                [_vm._v("Register")]
+              )
+            ])
+          ]
+        ),
         _vm._v(" "),
         _c("hr")
       ])
@@ -11025,6 +11036,7 @@ var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
 //
 //
 //
@@ -11129,100 +11141,110 @@ exports.default = _default;
       _c("div", { staticClass: "loginRegisBox" }, [
         _c("h2", [_vm._v("Register")]),
         _vm._v(" "),
-        _c("form", [
-          _c("div", { staticClass: "formInputLoginRegis" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.register.username,
-                  expression: "register.username"
-                }
-              ],
-              attrs: { type: "text", placeholder: "Username" },
-              domProps: { value: _vm.register.username },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.register, "username", $event.target.value)
-                }
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.registerUser($event)
               }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "formInputLoginRegis" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.register.email,
-                  expression: "register.email"
-                }
-              ],
-              attrs: { type: "email", placeholder: "Email" },
-              domProps: { value: _vm.register.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            }
+          },
+          [
+            _c("div", { staticClass: "formInputLoginRegis" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.register.username,
+                    expression: "register.username"
                   }
-                  _vm.$set(_vm.register, "email", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "formInputLoginRegis" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.register.password,
-                  expression: "register.password"
-                }
-              ],
-              attrs: { type: "password", placeholder: "Password" },
-              domProps: { value: _vm.register.password },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                ],
+                attrs: { type: "text", placeholder: "Username" },
+                domProps: { value: _vm.register.username },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.register, "username", $event.target.value)
                   }
-                  _vm.$set(_vm.register, "password", $event.target.value)
                 }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { attrs: { type: "button", id: "googleLogin" } }),
-          _vm._v(" "),
-          _c("div", { staticClass: "boxBtnloginRegister" }, [
-            _c(
-              "div",
-              {
-                staticClass: "btnLoginRegister morBtnLoginRegis",
-                attrs: { type: "button" },
-                on: { click: _vm.toLogin }
-              },
-              [_vm._v("Login")]
-            ),
+              })
+            ]),
             _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "btnLoginRegister",
-                attrs: { type: "button" },
-                on: { click: _vm.registerUser }
-              },
-              [_vm._v("Register")]
-            )
-          ])
-        ]),
+            _c("div", { staticClass: "formInputLoginRegis" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.register.email,
+                    expression: "register.email"
+                  }
+                ],
+                attrs: { type: "email", placeholder: "Email" },
+                domProps: { value: _vm.register.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.register, "email", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "formInputLoginRegis" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.register.password,
+                    expression: "register.password"
+                  }
+                ],
+                attrs: { type: "password", placeholder: "Password" },
+                domProps: { value: _vm.register.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.register, "password", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { attrs: { type: "button", id: "googleLogin" } }),
+            _vm._v(" "),
+            _c("div", { staticClass: "boxBtnloginRegister" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "btnLoginRegister morBtnLoginRegis",
+                  attrs: { type: "button" },
+                  on: { click: _vm.toLogin }
+                },
+                [_vm._v("Login")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btnLoginRegister btnNow",
+                  attrs: { type: "submit" }
+                },
+                [_vm._v("Register")]
+              )
+            ])
+          ]
+        ),
         _vm._v(" "),
         _c("hr")
       ])
@@ -11443,7 +11465,7 @@ var _default = {
           });
         }
       }).catch(function (error) {
-        console.log(error.response.data);
+        console.log(error);
       });
     },
     getOneTask: function getOneTask(id) {
@@ -11457,7 +11479,9 @@ var _default = {
         }
       }).then(function (_ref2) {
         var data = _ref2.data;
-        _this2.getonetasks = data; // this.$emit("editask", data);
+
+        _this2.$emit("getonetasks", data); // this.$emit("editask", data);
+
       }).catch(function (error) {
         console.log(error);
       });
@@ -11722,6 +11746,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 // const server = `http://localhost:3000`;
 var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
@@ -11750,22 +11775,6 @@ var _default = {
     closeEdit: function closeEdit() {
       this.$emit("onEditMode", false);
     },
-    // getAllTask() {
-    //   axios({
-    //     method: "GET",
-    //     url: `${server}/tasks`,
-    //     headers: {
-    //       token: localStorage.token
-    //     }
-    //   })
-    //     .then(({ data }) => {
-    //       console.log(data);
-    //       this.cards = data;
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // },
     resultDelete: function resultDelete() {
       // this.getAllTask();
       this.$emit("updateTask");
@@ -11779,31 +11788,12 @@ var _default = {
       this.changetoFormEdit = true; // this.$emit("editask", data);
       // this.getAllTask();
     },
-    updateTask: function updateTask() {
-      var _this = this;
-
-      (0, _axios.default)({
-        method: "PUT",
-        url: "".concat(server, "/tasks/").concat(this.formEdits.id),
-        data: {
-          title: this.formEdits.title,
-          description: this.formEdits.description
-        },
-        headers: {
-          token: localStorage.token
-        }
-      }).then(function (_ref) {
-        var data = _ref.data;
-        console.log(data, "<<<<<<< kirim update"); // this.getAllTask();
-
-        _this.changetoFormEdit = false;
-      }).catch(function (error) {
-        console.log(error.response, "<<<< error update task");
-      });
-    },
     nextCategory: function nextCategory() {
-      console.log("<<<<<<<< data next");
+      // console.log("<<<<<<<< data next");
       this.$emit("updateTask");
+    },
+    getonetasks: function getonetasks(data) {
+      this.$emit("getOnetaskFromBigCard", data); // console.log(data, "<<<<<<<< dari card besar");
     }
   }
 };
@@ -11845,7 +11835,8 @@ exports.default = _default;
                       resultDelete: _vm.resultDelete,
                       editask: _vm.editask,
                       nextCategory: _vm.nextCategory,
-                      resAddTask: _vm.resAddTask
+                      resAddTask: _vm.resAddTask,
+                      getonetasks: _vm.getonetasks
                     }
                   })
                 : _vm._e()
@@ -11958,6 +11949,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 // const server = "http://localhost:3000";
 var server = "https://kanban-dimas.herokuapp.com";
 var _default = {
@@ -12003,13 +11995,14 @@ var _default = {
         // this.dataFormAdd.category = "";
 
 
-        _this.dataFormAdd = {}; // Swal.fire({
-        //   position: "center",
-        //   icon: "success",
-        //   title: "Your work has been saved",
-        //   showConfirmButton: false,
-        //   timer: 1500
-        // });
+        _this.dataFormAdd = {};
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }).catch(function (error) {
         console.log(error.response.data, "<<<< erorr");
         Swal.fire({
@@ -12065,138 +12058,148 @@ exports.default = _default;
               _c("div", { staticClass: "loginRegisBox" }, [
                 _c("h2", [_vm._v("Add Task")]),
                 _vm._v(" "),
-                _c("form", [
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.dataFormAdd.status,
-                          expression: "dataFormAdd.status"
-                        }
-                      ],
-                      staticClass: "formInputLoginRegis",
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.dataFormAdd,
-                            "status",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.actionFormAdd($event)
                       }
-                    },
-                    [
-                      _c("option", { attrs: { value: "Low" } }, [
-                        _vm._v("Low")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "Medium" } }, [
-                        _vm._v("Medium")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "Hight" } }, [
-                        _vm._v("Hight")
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "formInputLoginRegis" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.dataFormAdd.title,
-                          expression: "dataFormAdd.title"
-                        }
-                      ],
-                      attrs: {
-                        type: "text",
-                        placeholder: "title",
-                        maxlength: "20"
-                      },
-                      domProps: { value: _vm.dataFormAdd.title },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.dataFormAdd,
-                            "title",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "formInputLoginRegis" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.dataFormAdd.description,
-                          expression: "dataFormAdd.description"
-                        }
-                      ],
-                      attrs: {
-                        type: "text",
-                        placeholder: "description",
-                        maxlength: "30"
-                      },
-                      domProps: { value: _vm.dataFormAdd.description },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.dataFormAdd,
-                            "description",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "boxBtnloginRegister" }, [
+                    }
+                  },
+                  [
                     _c(
-                      "div",
+                      "select",
                       {
-                        staticClass: "btnLoginRegister",
-                        attrs: { type: "button" },
-                        on: { click: _vm.actionFormAdd }
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataFormAdd.status,
+                            expression: "dataFormAdd.status"
+                          }
+                        ],
+                        staticClass: "formInputLoginRegis",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.dataFormAdd,
+                              "status",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
                       },
-                      [_vm._v("add Task")]
+                      [
+                        _c("option", { attrs: { value: "Low" } }, [
+                          _vm._v("Low")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "Medium" } }, [
+                          _vm._v("Medium")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "Hight" } }, [
+                          _vm._v("Hight")
+                        ])
+                      ]
                     ),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "btnLoginRegister morBtnLoginRegis",
-                        attrs: { type: "button" },
-                        on: { click: _vm.cancelToFormAdd }
-                      },
-                      [_vm._v("cancel")]
-                    )
-                  ])
-                ]),
+                    _c("div", { staticClass: "formInputLoginRegis" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataFormAdd.title,
+                            expression: "dataFormAdd.title"
+                          }
+                        ],
+                        attrs: {
+                          type: "text",
+                          placeholder: "title",
+                          maxlength: "20"
+                        },
+                        domProps: { value: _vm.dataFormAdd.title },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataFormAdd,
+                              "title",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "formInputLoginRegis" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataFormAdd.description,
+                            expression: "dataFormAdd.description"
+                          }
+                        ],
+                        attrs: {
+                          type: "text",
+                          placeholder: "description",
+                          maxlength: "30"
+                        },
+                        domProps: { value: _vm.dataFormAdd.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataFormAdd,
+                              "description",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "boxBtnloginRegister" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btnLoginRegister btnNow",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Add Task")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "btnLoginRegister morBtnLoginRegis",
+                          attrs: { type: "button" },
+                          on: { click: _vm.cancelToFormAdd }
+                        },
+                        [_vm._v("cancel")]
+                      )
+                    ])
+                  ]
+                ),
                 _vm._v(" "),
                 _c("hr")
               ])
@@ -12324,6 +12327,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 // import CardKecil from "../mainPage/CardKanban";
 // const server = "http://localhost:3000";
 var server = "https://kanban-dimas.herokuapp.com";
@@ -12352,10 +12356,7 @@ var _default = {
       }],
       cards: [],
       changetoFormEdit: false,
-      dataUpdateTask: {
-        title: "",
-        description: ""
-      }
+      dataGetOneTask: null
     };
   },
   mounted: function mounted() {
@@ -12385,6 +12386,48 @@ var _default = {
         _this.cards = data;
       }).catch(function (error) {
         console.log(error);
+      });
+    },
+    getOnetaskFromBigCard: function getOnetaskFromBigCard(data) {
+      this.dataGetOneTask = data;
+      this.changetoFormEdit = true;
+    },
+    updateOneTask: function updateOneTask() {
+      var _this2 = this;
+
+      (0, _axios.default)({
+        method: "PUT",
+        url: "".concat(server, "/tasks/").concat(this.dataGetOneTask.id),
+        data: {
+          title: this.dataGetOneTask.title,
+          description: this.dataGetOneTask.description
+        },
+        headers: {
+          token: localStorage.token
+        }
+      }).then(function (_ref2) {
+        var data = _ref2.data;
+
+        _this2.getAllTask();
+
+        _this2.changetoFormEdit = false;
+        _this2.dataGetOneTask = {};
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your work change has been saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }).catch(function (error) {
+        console.log(error.response, "<<<< error update task");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "".concat(error),
+          showConfirmButton: false,
+          timer: 1500
+        });
       });
     },
     updateTask: function updateTask() {
@@ -12425,7 +12468,10 @@ exports.default = _default;
                     category: category,
                     cards: _vm.cards
                   },
-                  on: { updateTask: _vm.updateTask }
+                  on: {
+                    updateTask: _vm.updateTask,
+                    getOnetaskFromBigCard: _vm.getOnetaskFromBigCard
+                  }
                 })
               }),
               1
@@ -12433,10 +12479,115 @@ exports.default = _default;
           : _vm._e()
       ],
       1
-    )
+    ),
+    _vm._v(" "),
+    _c("section", [
+      _vm.changetoFormEdit == true
+        ? _c("div", { attrs: { id: "addTaskPage" } }, [
+            _c("div", { staticClass: "loginRegisPage" }, [
+              _c("div", { staticClass: "loginRegisBox" }, [
+                _c("h2", [_vm._v("Edit Task")]),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.updateOneTask($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "formInputLoginRegis" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataGetOneTask.title,
+                            expression: "dataGetOneTask.title"
+                          }
+                        ],
+                        attrs: { type: "text", maxlength: "20" },
+                        domProps: { value: _vm.dataGetOneTask.title },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataGetOneTask,
+                              "title",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "formInputLoginRegis" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataGetOneTask.description,
+                            expression: "dataGetOneTask.description"
+                          }
+                        ],
+                        attrs: { type: "text", maxlength: "30" },
+                        domProps: { value: _vm.dataGetOneTask.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataGetOneTask,
+                              "description",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ]
+                ),
+                _vm._v(" "),
+                _c("hr")
+              ])
+            ])
+          ])
+        : _vm._e()
+    ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "boxBtnloginRegister" }, [
+      _c(
+        "button",
+        { staticClass: "btnLoginRegister btnNow", attrs: { type: "submit" } },
+        [_vm._v("Submit")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "btnLoginRegister morBtnLoginRegis",
+          attrs: { type: "button" }
+        },
+        [_vm._v("cancel")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
           return {
@@ -12840,7 +12991,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63989" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61838" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

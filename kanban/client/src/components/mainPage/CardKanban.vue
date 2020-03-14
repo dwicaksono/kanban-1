@@ -71,7 +71,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error.response.data);
+          console.log(error);
         });
     },
     getOneTask(id) {
@@ -83,7 +83,7 @@ export default {
         }
       })
         .then(({ data }) => {
-          this.getonetasks = data;
+          this.$emit("getonetasks", data);
           // this.$emit("editask", data);
         })
         .catch(error => {

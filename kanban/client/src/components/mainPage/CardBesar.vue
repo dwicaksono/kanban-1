@@ -20,6 +20,7 @@
           @editask="editask"
           @nextCategory="nextCategory"
           @resAddTask="resAddTask"
+          @getonetasks="getonetasks"
         />
       </div>
       <!-- batas card kecil -->
@@ -88,22 +89,6 @@ export default {
     closeEdit() {
       this.$emit("onEditMode", false);
     },
-    // getAllTask() {
-    //   axios({
-    //     method: "GET",
-    //     url: `${server}/tasks`,
-    //     headers: {
-    //       token: localStorage.token
-    //     }
-    //   })
-    //     .then(({ data }) => {
-    //       console.log(data);
-    //       this.cards = data;
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // },
     resultDelete() {
       // this.getAllTask();
       this.$emit("updateTask");
@@ -118,30 +103,14 @@ export default {
       // this.$emit("editask", data);
       // this.getAllTask();
     },
-    updateTask() {
-      axios({
-        method: "PUT",
-        url: `${server}/tasks/${this.formEdits.id}`,
-        data: {
-          title: this.formEdits.title,
-          description: this.formEdits.description
-        },
-        headers: {
-          token: localStorage.token
-        }
-      })
-        .then(({ data }) => {
-          console.log(data, "<<<<<<< kirim update");
-          // this.getAllTask();
-          this.changetoFormEdit = false;
-        })
-        .catch(error => {
-          console.log(error.response, "<<<< error update task");
-        });
-    },
+
     nextCategory() {
-      console.log("<<<<<<<< data next");
+      // console.log("<<<<<<<< data next");
       this.$emit("updateTask");
+    },
+    getonetasks(data) {
+      this.$emit("getOnetaskFromBigCard", data);
+      // console.log(data, "<<<<<<<< dari card besar");
     }
   }
 };

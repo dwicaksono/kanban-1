@@ -19,6 +19,7 @@
           :category="category"
           :cards="cards"
           @updateTask="updateTask"
+          @getOnetaskFromBigCard="getOnetaskFromBigCard"
         />
 
         <!-- card-->
@@ -42,20 +43,20 @@
       </div>
     </section>
     <!-- edit form -->
-    <!-- <section>
+    <section>
       <div id="addTaskPage" v-if="changetoFormEdit == true">
         <div class="loginRegisPage">
           <div class="loginRegisBox">
             <h2>Edit Task</h2>
-            <form>
+            <form @submit.prevent="updateOneTask">
               <div class="formInputLoginRegis">
-                <input type="text" maxlength="20" v-model="formEdits.title" />
+                <input type="text" maxlength="20" v-model="dataGetOneTask.title" />
               </div>
               <div class="formInputLoginRegis">
-                <input type="text" maxlength="30" v-model="formEdits.description" />
+                <input type="text" maxlength="30" v-model="dataGetOneTask.description" />
               </div>
               <div class="boxBtnloginRegister">
-                <div type="button" class="btnLoginRegister" @click="updateTask">Submit</div>
+                <button type="submit" class="btnLoginRegister btnNow">Submit</button>
                 <div type="button" class="btnLoginRegister morBtnLoginRegis">cancel</div>
               </div>
             </form>
@@ -63,7 +64,7 @@
           </div>
         </div>
       </div>
-    </section>-->
+    </section>
   </div>
 </template>
 
@@ -89,10 +90,7 @@ export default {
       ],
       cards: [],
       changetoFormEdit: false,
-      dataUpdateTask: {
-        title: "",
-        description: ""
-      }
+      dataGetOneTask: null
     };
   },
   mounted() {
@@ -121,6 +119,45 @@ export default {
         })
         .catch(error => {
           console.log(error);
+        });
+    },
+    getOnetaskFromBigCard(data) {
+      this.dataGetOneTask = data;
+      this.changetoFormEdit = true;
+    },
+    updateOneTask() {
+      axios({
+        method: "PUT",
+        url: `${server}/tasks/${this.dataGetOneTask.id}`,
+        data: {
+          title: this.dataGetOneTask.title,
+          description: this.dataGetOneTask.description
+        },
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          this.getAllTask();
+          this.changetoFormEdit = false;
+          this.dataGetOneTask = {};
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your work change has been saved",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        })
+        .catch(error => {
+          console.log(error.response, "<<<< error update task");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: `${error}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
     },
     updateTask() {

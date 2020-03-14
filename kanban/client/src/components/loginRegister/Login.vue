@@ -5,7 +5,8 @@
     <div class="loginRegisPage">
       <div class="loginRegisBox">
         <h2>Login</h2>
-        <form>
+        <form @submit.prevent="loginUser">
+          <!-- <form> -->
           <div class="formInputLoginRegis">
             <input type="email" placeholder="Email" v-model="login.email" />
           </div>
@@ -18,7 +19,8 @@
           </div>-->
 
           <div class="boxBtnloginRegister">
-            <div type="button" class="btnLoginRegister" @click="loginUser">Login</div>
+            <!-- <div type="button" class="btnLoginRegister" @click="loginUser">Login</div> -->
+            <button type="submit" class="btnLoginRegister btnNow">Login</button>
             <div
               type="button"
               class="btnLoginRegister morBtnLoginRegis"
@@ -72,7 +74,6 @@ export default {
           } else {
             localStorage.token = data;
             this.$emit("setLoginTrue");
-            console.log(data, "<<<<<< data login");
             Swal.fire({
               position: "center",
               icon: "success",

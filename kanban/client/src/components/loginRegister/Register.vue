@@ -4,7 +4,7 @@
     <div class="loginRegisPage">
       <div class="loginRegisBox">
         <h2>Register</h2>
-        <form>
+        <form @submit.prevent="registerUser">
           <div class="formInputLoginRegis">
             <input type="text" placeholder="Username" v-model="register.username" />
           </div>
@@ -17,7 +17,8 @@
           <div type="button" id="googleLogin"></div>
           <div class="boxBtnloginRegister">
             <div type="button" class="btnLoginRegister morBtnLoginRegis" @click="toLogin">Login</div>
-            <div type="button" class="btnLoginRegister" @click="registerUser">Register</div>
+            <!-- <div type="button" class="btnLoginRegister" @click="registerUser">Register</div> -->
+            <button type="submit" class="btnLoginRegister btnNow">Register</button>
           </div>
         </form>
         <hr />
